@@ -23,6 +23,11 @@
     models: 16
     trials_per_cell: "1-5 (capped at the 5 most recent)"
   bytes: 340000293953
+  runs:
+    first: "2026-03-25"
+    last: "2026-05-26"
+    basis: measured
+    note: "measured from first_step_at across 783,135 extracted trials; 94% ran in April 2026. Dataset was not uploaded until 2026-07-11."
   cost: {usd: null, basis: null, note: "not published. 794k frontier-agent trials; the compute behind this is the largest single spend in the index."}
   updated: "2026-07-11"
   notes:
@@ -52,6 +57,11 @@
     models: 49
     trials_per_cell: "~5 (TB requires 5 independent runs per submission)"
   bytes: 221003563
+  runs:
+    first: "2025-10-31"
+    last: "2026-03-05"
+    basis: measured
+    note: "measured from started_at. PARTIAL: only 22,598 of 52,104 rows carry a usable timestamp; 29,506 have an empty string."
   cost:
     usd: 21563
     basis: measured
@@ -81,7 +91,12 @@
   license: {spdx: unset, redistributable: false}
   gate: encrypted
   scale: {rows: 21730, benchmarks: 9, models: 9, trials_per_cell: "varies by benchmark protocol"}
-  bytes: 113000000000
+  bytes: 113072877091
+  runs:
+    first: null
+    last: "2025-10"
+    basis: reported
+    note: "run dates are not in the public metadata; the flagship 21,730-rollout study was published 2025-10."
   cost:
     usd: 40000
     basis: reported
@@ -108,6 +123,7 @@
   gate: open
   scale: {rows: 1196, benchmarks: 1, tasks: 46, models: 26}
   bytes: 51641148162
+  runs: {first: null, last: "2026-07", basis: reported, note: "paper arXiv:2607.08964; per-submission dates are inside submissions/."}
   cost: {usd: null, basis: null, note: "not published. long-horizon tasks with per-model agent_budget_sec, so per-trial spend is high."}
   updated: "2026-08-20"
   notes:
@@ -128,7 +144,8 @@
   license: {spdx: cc-by-4.0, redistributable: true}
   gate: hf-gated
   scale: {rows: 5000, tasks: 108, models: 17, trials_per_cell: "3"}
-  bytes: 2000000000
+  bytes: 1997168952
+  runs: {first: null, last: "2025-10", basis: reported, note: "paper arXiv:2510.25726; not recorded per trial in the public dump."}
   cost: {usd: null, basis: null, note: "not published"}
   updated: "2025-12-05"
   notes:
@@ -149,7 +166,8 @@
   license: {spdx: mit, redistributable: false}
   gate: hf-gated
   scale: {rows: 7179, tasks: 169, models: 19, trials_per_cell: ">=5 under the HCAST protocol"}
-  bytes: 8480000000
+  bytes: 8482061943
+  runs: {first: null, last: "2025-10", basis: reported, note: "MALT released 2025-10-14; per-run dates not published."}
   cost: {usd: null, basis: null, note: "not published"}
   updated: "2026-03-24"
   notes:
@@ -171,6 +189,7 @@
   gate: open
   scale: {rows: null, tasks: 228, trials_per_cell: "~8 per (model, task)"}
   bytes: 22400000
+  runs: {first: null, last: "2026-01", basis: reported, note: "Time Horizon 1.1 published 2026-01-29."}
   cost: {usd: null, basis: null, note: "not published"}
   updated: "2026-01-29"
   notes:
@@ -191,6 +210,7 @@
   gate: account
   scale: {rows: null, tasks: 369, models: 15, trials_per_cell: "multiple, at 15/50/100 step budgets"}
   bytes: 480000000000
+  runs: {first: null, last: "2026-08", basis: reported, note: "dataset updated 2026-08; run dates not published. 480 GB is the card's decimal figure."}
   cost: {usd: null, basis: null, note: "not published"}
   updated: "2026-08-01"
   notes:
@@ -213,6 +233,7 @@
   gate: open
   scale: {tasks: 300, trials_per_cell: "4-8 (pass^k is the point of the benchmark)"}
   bytes: null
+  runs: {first: null, last: null, basis: unknown, note: "historical_trajectories are committed to git without run timestamps."}
   cost: {usd: null, basis: null, note: "not published"}
   updated: "2026-07-15"
   notes:
@@ -233,6 +254,7 @@
   gate: open
   scale: {tasks: 20, trials_per_cell: "3"}
   bytes: null
+  runs: {first: null, last: "2025-04", basis: reported, note: "paper published 2025-04."}
   cost: {usd: null, basis: null, note: "not published; long-horizon paper-reproduction runs are expensive per trial"}
   updated: "2025-04-01"
   notes:
@@ -252,6 +274,7 @@
   gate: open
   scale: {tasks: 75, trials_per_cell: "multiple seeds; the paper reports pass@8"}
   bytes: null
+  runs: {first: null, last: "2024-10", basis: reported, note: "paper arXiv:2410.07095."}
   cost: {usd: null, basis: null, note: "not published"}
   updated: "2024-10-01"
   notes:
@@ -270,7 +293,8 @@
   license: {spdx: mit, redistributable: true}
   gate: open
   scale: {rows: 464, tasks: 116, models: 1, trials_per_cell: "4"}
-  bytes: null
+  bytes: 2713576738
+  runs: {first: null, last: "2026-06", basis: reported, note: "upstream last modified 2026-06-30; run dates not published."}
   cost: {usd: null, basis: null, note: "not published"}
   updated: "2026-06-30"
   notes:
@@ -290,6 +314,7 @@
   gate: unknown
   scale: {trials_per_cell: "often 3"}
   bytes: null
+  runs: {first: null, last: "2026-04", basis: reported, note: "upstream last modified 2026-04-22."}
   cost: {usd: null, basis: null, note: "not published"}
   updated: "2026-04-22"
   notes:
@@ -308,7 +333,8 @@
   license: {spdx: apache-2.0, redistributable: true}
   gate: open
   scale: {rows: 1380, models: 7, agents: 2}
-  bytes: null
+  bytes: 142956961
+  runs: {first: null, last: "2026-05", basis: reported, note: "upstream last modified 2026-05-12."}
   cost: {usd: null, basis: null, note: "not published"}
   updated: "2026-05-12"
   notes:
@@ -326,7 +352,8 @@
   license: {spdx: cc-by-4.0, redistributable: true}
   gate: open
   scale: {tasks: 500, trials_per_cell: "10 per setting"}
-  bytes: null
+  bytes: 47948236243
+  runs: {first: null, last: "2026-03", basis: reported, note: "upstream last modified 2026-03-20."}
   cost: {usd: null, basis: null, note: "not published"}
   updated: "2026-03-20"
   notes:
@@ -344,7 +371,8 @@
   license: {spdx: cc-by-nc-4.0, redistributable: true}
   gate: open
   scale: {rows: 105}
-  bytes: null
+  bytes: 23173423
+  runs: {first: null, last: "2026-01", basis: reported, note: "upstream last modified 2026-01-19."}
   cost: {usd: null, basis: null, note: "not published"}
   updated: "2026-01-19"
   notes:

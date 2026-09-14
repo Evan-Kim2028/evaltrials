@@ -50,6 +50,20 @@ class Entry:
         return self.raw.get("notes") or []
 
     @property
+    def runs(self) -> dict:
+        """When the trials were actually run - not when the dataset was uploaded."""
+        return self.raw.get("runs") or {}
+
+    @property
+    def run_date_key(self) -> str:
+        """Sortable YYYY-MM-DD. Falls back to upstream `updated`, then epoch."""
+        raw = self.runs.get("last") or self.raw.get("updated") or ""
+        parts = str(raw).split("-")
+        while len(parts) < 3:
+            parts.append("01" if len(parts) < 3 else "01")
+        return "-".join(p.zfill(2) for p in parts[:3])
+
+    @property
     def cost_per_trial(self) -> float | None:
         usd, rows = self.cost.get("usd"), self.scale.get("rows")
         if usd and rows:
@@ -71,6 +85,11 @@ def _validate(d: dict, where: str) -> None:
             raise ValueError(f"{where}: {k}={d[k]!r} not in {sorted(allowed)}")
     if "redistributable" not in d["license"]:
         raise ValueError(f"{where}: license.redistributable is required (fail closed)")
+    runs = d.get("runs") or {}
+    if runs.get("basis") not in ("measured", "reported", "estimated", "unknown", None):
+        raise ValueError(f"{where}: runs.basis={runs.get('basis')!r} is not valid")
+    if "runs" not in d:
+        raise ValueError(f"{where}: entry must declare `runs` (use basis: unknown if you do not know)")
     cost = d.get("cost") or {}
     if cost.get("usd") is not None and cost.get("basis") not in ("measured", "reported", "estimated"):
         raise ValueError(f"{where}: cost.usd needs basis measured|reported|estimated")

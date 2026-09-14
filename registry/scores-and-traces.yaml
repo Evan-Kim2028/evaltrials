@@ -14,6 +14,7 @@
   gate: open
   scale: {rows: 1103, benchmarks: 37, models: 126, trials_per_cell: "16 on GPQA Diamond and Mock AIME, 8 on MATH L5"}
   bytes: null
+  runs: {first: "2023", last: "2026-09", basis: reported, note: "the hub is continuously updated; CSV regenerated 2026-09-14."}
   cost: {usd: null, basis: null, note: "not published as a total, though Epoch reports per-benchmark inference costs in places"}
   updated: "2026-09-14"
   notes:
@@ -35,6 +36,7 @@
   gate: open
   scale: {tasks: 2294, trials_per_cell: "1 (pass@1 required; pass@k disallowed for the headline number)"}
   bytes: null
+  runs: {first: "2023-10", last: "2026-09", basis: reported, note: "submissions accumulate continuously; each folder carries its own metadata.yaml date."}
   cost: {usd: null, basis: null, note: "not published"}
   updated: "2026-09-01"
   notes:
@@ -55,6 +57,7 @@
   gate: open
   scale: {rows: 1699, tasks: 1699, trials_per_cell: "3 human raters per task"}
   bytes: 8000000
+  runs: {first: null, last: "2024-08", basis: reported, note: "human annotation campaign, published 2024-08-13. Not model runs."}
   cost: {usd: null, basis: null, note: "human annotation cost, not compute; not published"}
   updated: "2024-08-13"
   notes:
@@ -74,7 +77,8 @@
   license: {spdx: unset, redistributable: false}
   gate: open
   scale: {rows: 1302, benchmarks: 5, models: 4}
-  bytes: null
+  bytes: 38355483224
+  runs: {first: null, last: "2025-04", basis: reported, note: "paper arXiv:2504.08942."}
   cost: {usd: null, basis: null, note: "not published"}
   updated: "2025-04-21"
   notes:
@@ -95,7 +99,8 @@
   license: {spdx: mit, redistributable: true}
   gate: hf-gated
   scale: {rows: 148, benchmarks: 2}
-  bytes: null
+  bytes: 241077282
+  runs: {first: null, last: "2025-05", basis: reported, note: "paper arXiv:2505.08638."}
   cost: {usd: null, basis: null, note: "not published"}
   updated: "2025-05-01"
   notes:
@@ -115,7 +120,8 @@
   license: {spdx: mit, redistributable: true}
   gate: open
   scale: {rows: 107}
-  bytes: 30900000000
+  bytes: 3347393406
+  runs: {first: null, last: "2026-09", basis: reported, note: "continuously updated aggregation, not a run campaign."}
   cost: {usd: null, basis: null, note: "aggregation of published scores; no compute of its own"}
   updated: "2026-09-14"
   notes:
@@ -135,7 +141,8 @@
   license: {spdx: cc-by-nc-4.0, redistributable: true}
   gate: open
   scale: {rows: null}
-  bytes: 9270000000
+  bytes: 9271591381
+  runs: {first: null, last: "2026-09", basis: reported, note: "aggregation, not a run campaign."}
   cost: {usd: null, basis: null, note: "aggregation; no compute of its own"}
   updated: "2026-09-05"
   notes:
@@ -155,6 +162,7 @@
   gate: open
   scale: {tasks: 175, trials_per_cell: "1"}
   bytes: null
+  runs: {first: null, last: "2025-06", basis: reported, note: "upstream last updated 2025-06."}
   cost: {usd: null, basis: null, note: "not published"}
   updated: "2025-06-01"
   notes:
@@ -172,7 +180,8 @@
   license: {spdx: cc-by-4.0, redistributable: true}
   gate: open
   scale: {rows: 200000}
-  bytes: null
+  bytes: 42599603552
+  runs: {first: null, last: "2026-06", basis: reported, note: "upstream last modified 2026-06; SFT generation, not an eval campaign."}
   cost: {usd: null, basis: null, note: "not published; 200k+ agent rollouts is a very large spend"}
   updated: "2026-06-01"
   notes:
@@ -192,7 +201,8 @@
   license: {spdx: mit, redistributable: true}
   gate: open
   scale: {rows: 76002, trials_per_cell: "up to 3 per task instance, after filtering"}
-  bytes: 4220000000
+  bytes: 4223845920
+  runs: {first: null, last: "2025-04", basis: reported, note: "paper arXiv:2504.21798; SFT generation."}
   cost: {usd: null, basis: null, note: "not published"}
   updated: "2025-04-01"
   notes:
@@ -210,7 +220,8 @@
   license: {spdx: other, redistributable: true}
   gate: hf-gated
   scale: {rows: 1000000, models: 25}
-  bytes: null
+  bytes: 1488861436
+  runs: {first: "2023-04", last: "2023-08", basis: reported, note: "in-the-wild traffic collected Apr-Aug 2023, per the dataset card."}
   cost: {usd: null, basis: null, note: "in-the-wild traffic, not commissioned runs"}
   updated: "2023-08-01"
   notes:

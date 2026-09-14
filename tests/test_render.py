@@ -39,3 +39,32 @@ def test_readme_on_disk_is_current():
     import pathlib
     from evaltrials.render import ROOT
     assert (pathlib.Path(ROOT) / "README.md").read_text() == render(ENTRIES)
+
+
+def test_index_is_sorted_by_run_date_descending():
+    """The table rows must come out in strictly non-increasing run-date order."""
+    from evaltrials.render import _sort_key
+
+    out = render(ENTRIES)
+    table = [l for l in out.splitlines() if l.startswith("| [")]
+    assert len(table) == len(ENTRIES)
+
+    ordered = sorted(ENTRIES.values(), key=_sort_key)
+    dates = [e.run_date_key for e in ordered]
+    assert dates == sorted(dates, reverse=True), dates
+
+    # first row is the most recently run dataset, ties broken by id ascending
+    assert ordered[0].title in table[0]
+    assert ordered[-1].title in table[-1]
+
+
+def test_unknown_run_dates_are_labelled():
+    out = render(ENTRIES)
+    if any(not e.runs.get("last") for e in ENTRIES.values()):
+        assert "(u)" in out and "unknown (upstream" in out
+
+
+def test_measured_dates_render_as_spans():
+    out = render(ENTRIES)
+    assert "2026-03-25 → 2026-05-26 (m)" in out   # harbor, measured
+    assert "2025-10-31 → 2026-03-05 (m)" in out   # terminal-bench, measured

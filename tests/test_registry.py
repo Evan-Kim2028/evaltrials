@@ -59,3 +59,27 @@ def test_ids_are_unique_and_slugs():
     for i in ENTRIES:
         assert i == i.lower()
         assert " " not in i
+
+
+@pytest.mark.parametrize("entry", ENTRIES.values(), ids=list(ENTRIES))
+def test_runs_block_is_declared(entry):
+    """When the trials ran is a first-class fact, not an afterthought."""
+    runs = entry.runs
+    assert runs, "every entry must declare `runs` (basis: unknown is allowed)"
+    assert runs.get("basis") in ("measured", "reported", "estimated", "unknown")
+    if runs.get("basis") in ("measured", "reported", "estimated"):
+        assert runs.get("last"), "a dated basis needs at least runs.last"
+        assert runs.get("note"), "a run date needs a note saying where it came from"
+
+
+@pytest.mark.parametrize("entry", ENTRIES.values(), ids=list(ENTRIES))
+def test_run_date_key_is_sortable(entry):
+    key = entry.run_date_key
+    assert len(key) == 10 and key.count("-") == 2, key
+
+
+@pytest.mark.parametrize("entry", ENTRIES.values(), ids=list(ENTRIES))
+def test_measured_runs_predate_upstream_upload(entry):
+    """A measured run date after the upload date means the measurement is wrong."""
+    if entry.runs.get("basis") == "measured" and entry.raw.get("updated"):
+        assert entry.runs["last"] <= entry.raw["updated"], entry.id

@@ -46,9 +46,30 @@ def _license(entry) -> str:
 
 
 def _sort_key(e):
+    """Most recently run first. That is what people want to see at the top."""
+    return (_invert(e.run_date_key), e.id)
+
+
+def _invert(key: str) -> str:
+    """Descending string sort without reverse=, so ties stay id-ascending."""
+    return "".join(chr(0x7E - ord(c)) if c.isdigit() else c for c in key)
+
+
+def _detail_sort_key(e):
     kind_rank = KIND_ORDER.index(e.kind) if e.kind in KIND_ORDER else len(KIND_ORDER)
-    rows = e.scale.get("rows")
-    return (kind_rank, -(rows if isinstance(rows, int) else 0), e.id)
+    return (kind_rank, _invert(e.run_date_key), e.id)
+
+
+def _runs(e) -> str:
+    r = e.runs
+    first, last, basis = r.get("first"), r.get("last"), r.get("basis")
+    if not last:
+        # No run dates at all. Say so, and show what the sort actually used.
+        upstream = e.raw.get("updated")
+        return f"unknown (upstream {upstream[:7]}) (u)" if upstream else "unknown"
+    span = f"{first} → {last}" if first and first != last else str(last)
+    mark = BASIS_MARK.get(basis)
+    return f"{span} ({mark})" if mark else span
 
 
 def _read(name: str) -> str:
@@ -58,14 +79,14 @@ def _read(name: str) -> str:
 
 def _table(entries) -> list[str]:
     out = [
-        "| Dataset | Kind | Unit | Multi-trial | Trajectories | Rows | Size | Cost to produce | License | Gate |",
-        "| --- | --- | --- | --- | --- | ---: | ---: | ---: | --- | --- |",
+        "| Dataset | Trials run | Kind | Unit | Multi-trial | Trajectories | Rows | Size | Cost to produce | License | Gate |",
+        "| --- | --- | --- | --- | --- | --- | ---: | ---: | ---: | --- | --- |",
     ]
     for e in entries:
         url = e.upstream.get("url") or e.upstream.get("homepage") or ""
         name = f"[{e.title}]({url})" if url else e.title
         out.append(
-            f"| {name} | {e.kind} | {e.unit} | {e.multi_trial} | {e.trajectories} | "
+            f"| {name} | {_runs(e)} | {e.kind} | {e.unit} | {e.multi_trial} | {e.trajectories} | "
             f"{_num(e.scale.get('rows'))} | {human_bytes(e.bytes)} | {_cost(e)} | "
             f"{_license(e)} | {e.gate} |"
         )
@@ -82,6 +103,9 @@ def _detail(e) -> list[str]:
         links.append(f"[{label}]({v})" if v.startswith("http") else f"{label}: `{v}`")
     out.append(f"`{e.id}` · " + " · ".join(links))
     out.append("")
+    r = e.runs
+    if r.get("last"):
+        out.append(f"- **trials run** {_runs(e)}" + (f" — {r['note']}" if r.get("note") else ""))
     out.append(f"- **unit** `{e.unit}` · **multi-trial** `{e.multi_trial}` · "
                f"**trajectories** `{e.trajectories}` · **gate** `{e.gate}`")
     if e.scale:
@@ -140,13 +164,15 @@ def render(entries: dict) -> str:
     lines.append("")
     lines += _table(items)
     lines.append("")
-    lines.append("Cost basis: `(m)` measured from the data · `(r)` reported by the authors "
-                 "· `(e)` estimated. `⚠` marks a dataset that may not be redistributed.")
+    lines.append("Sorted by when the trials were run, most recent first. "
+                 "`(m)` measured from the data itself · `(r)` reported by the authors · "
+                 "`(e)` estimated · `(u)` no run dates published, so the upstream update date "
+                 "is shown and used for sorting. `⚠` marks a dataset that may not be redistributed.")
     lines.append("")
     lines.append("## Detail")
     lines.append("")
     current = None
-    for e in items:
+    for e in sorted(entries.values(), key=_detail_sort_key):
         if e.kind != current:
             current = e.kind
             lines.append(f"## {KIND_TITLE.get(e.kind, e.kind)}")

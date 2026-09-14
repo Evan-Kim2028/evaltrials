@@ -34,8 +34,14 @@ Required per entry: `id`, `title`, `kind`, `unit`, `multi_trial`, `trajectories`
 must also set `cost.basis` to `measured`, `reported` or `estimated`, and say in
 `cost.note` where the number came from.
 
-Corrections are more useful than additions. Several sizes and row counts here were read
-off the HuggingFace API on 2026-09-14 and will drift.
+Corrections are more useful than additions.
+
+**Verification status.** Sizes for the 18 HuggingFace-hosted entries were read from the
+HF API on 2026-09-14 and match the cards. The 7 entries hosted on GitHub or ModelScope
+have no size recorded because it was not cheaply checkable. Run dates are measured from
+the data for two entries and taken from papers or upstream metadata for the rest — the
+`(m)`/`(r)`/`(u)` markers say which. Row counts largely come from dataset cards and
+papers and are the least verified numbers here.
 
 ## License
 

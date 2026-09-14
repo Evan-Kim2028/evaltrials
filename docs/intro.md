@@ -25,6 +25,7 @@ to use, and — where the number exists — what it cost to *produce*.
   a number that does not exist.
 - **Multi-trial** is what most people actually come here for. Only a handful of public
   datasets run the same task more than once per model.
+- **Trials run** is when the runs actually happened, which is often months before the dataset was uploaded — Harbor's trials ran March–May 2026 but landed on HuggingFace in July. Marked `(m)` measured, `(r)` reported, `(u)` unknown (upstream date shown instead).
 - **Cost to produce** is marked `(m)` measured by us from the data itself, `(r)` reported
   by the authors, or `(e)` estimated. Most entries are blank because nobody published it.
 - **License ⚠** means not redistributable — fetch it from upstream yourself, and do not
