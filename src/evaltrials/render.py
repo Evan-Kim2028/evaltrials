@@ -147,6 +147,19 @@ def _detail(e) -> list[str]:
     return out
 
 
+def _headline(entries) -> str:
+    """The one line that says why this is worth reading."""
+    n = len(entries)
+    total_bytes = sum(e.bytes or 0 for e in entries)
+    trials = sum(e.scale.get("trials") or 0 for e in entries)
+    cost = sum(e.cost.get("usd") or 0 for e in entries)
+    return (
+        f"> **{n} datasets · {human_bytes(total_bytes)} · "
+        f"{trials:,}+ recorded agent trials · ${cost:,.0f} of disclosed compute**\n>\n"
+        f"> Every one of those trials was already paid for by someone else."
+    )
+
+
 def _by_the_numbers(entries) -> list[str]:
     """The questions people ask before they click anything."""
     n = len(entries)
@@ -189,6 +202,14 @@ def _by_the_numbers(entries) -> list[str]:
     out.append(f"- **{len(withann)} of {n}** have a primary-source announcement — a blog post, "
                f"project page or paper the authors wrote. The other {n - len(withann)} were "
                f"published with nothing but a dataset card.")
+    out.append("")
+
+    counted = [e for e in entries if e.scale.get("trials")]
+    agentruns = [e for e in entries if e.kind == "agent-trials"]
+    out.append(f"- **{sum(e.scale['trials'] for e in counted):,} individual agent trials** are "
+               f"recorded across the {len(counted)} datasets that publish a trial count. "
+               f"The other {len(agentruns) - len(counted)} agent-run datasets do not say, so the "
+               f"real figure is higher.")
     out.append("")
 
     out.append("**What it cost to make**")
@@ -248,8 +269,8 @@ def _totals(entries) -> list[str]:
 def render(entries: dict) -> str:
     items = sorted(entries.values(), key=_sort_key)
     lines: list[str] = []
-    intro = _read("intro.md")
-    if intro:
+    intro = _read("intro.md").replace("{{HEADLINE}}", _headline(items))
+    if intro.strip():
         lines.append(intro.rstrip())
         lines.append("")
     lines.append("## Index")

@@ -2,6 +2,8 @@
 
 **An index of public AI-evaluation run data.**
 
+{{HEADLINE}}
+
 Re-running agent evals is expensive. Harbor's 54-benchmark sweep burned **226 billion
 tokens and over $300,000** of compute. HAL spent about **$40,000** on 21,730 rollouts.
 The Terminal-Bench trajectory dump represents at least **$21,563** of compute,

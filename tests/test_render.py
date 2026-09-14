@@ -82,3 +82,25 @@ def test_host_totals_add_up():
     out = render(ENTRIES)
     total = human_bytes(sum(e.bytes or 0 for e in ENTRIES.values()))
     assert f"**{total}**" in out
+
+
+def test_headline_is_present_and_computed():
+    out = render(ENTRIES)
+    head = out.splitlines()[:8]
+    joined = "\n".join(head)
+    assert "{{HEADLINE}}" not in out, "the headline placeholder must be substituted"
+    assert f"{len(ENTRIES)} datasets" in joined
+    trials = sum(e.scale.get("trials") or 0 for e in ENTRIES.values())
+    assert f"{trials:,}+ recorded agent trials" in joined
+    cost = sum(e.cost.get("usd") or 0 for e in ENTRIES.values())
+    assert f"${cost:,.0f} of disclosed compute" in joined
+
+
+def test_trial_total_is_material():
+    """The headline claim is the point of the repo; guard it against silent decay."""
+    trials = sum(e.scale.get("trials") or 0 for e in ENTRIES.values())
+    assert trials > 500_000, trials
+
+
+def test_dropped_entries_stay_dropped():
+    assert "harbor-parity" not in ENTRIES

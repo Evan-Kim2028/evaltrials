@@ -118,3 +118,11 @@ def test_announcement_is_declared(entry):
     assert ann.get("url") or ann.get("note")
     if ann.get("url"):
         assert ann["url"].startswith("http")
+
+
+@pytest.mark.parametrize("entry", ENTRIES.values(), ids=list(ENTRIES))
+def test_trial_counts_only_on_agent_runs(entry):
+    """`trials` feeds the headline number, so it must mean one thing everywhere."""
+    if entry.scale.get("trials"):
+        assert entry.kind == "agent-trials", entry.id
+        assert isinstance(entry.scale["trials"], int) and entry.scale["trials"] > 0

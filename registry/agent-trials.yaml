@@ -77,6 +77,7 @@
     agents: 26
     models: 49
     trials_per_cell: ~5 (TB requires 5 independent runs per submission)
+    trials: 52104
   bytes: 221003563
   verified:
     rows: datasets-server
@@ -130,6 +131,7 @@
     trials_per_cell: varies by benchmark protocol
     rows_note: from the HAL paper. HuggingFace cannot count these rows - they are encrypted zips, not
       parquet.
+    trials: 21730
   bytes: 113072877091
   verified:
     rows: paper-only
@@ -222,6 +224,7 @@
     models: 17
     trials_per_cell: '3'
     rows_note: from the dataset card; the repo is gated so the row counter returns 401. UNVERIFIED.
+    trials: 5000
   bytes: 1997168952
   verified:
     rows: unverified-gated
@@ -265,6 +268,7 @@
     models: 19
     trials_per_cell: '>=5 under the HCAST protocol'
     rows_note: from METR's release post; gated, row counter returns 401. UNVERIFIED.
+    trials: 7179
   bytes: 8482061943
   verified:
     rows: unverified-gated
@@ -513,6 +517,7 @@
     models: 1
     trials_per_cell: '4'
     rows_note: from the dataset card. HuggingFace reports 0 rows - raw JSON, not parquet. UNVERIFIED.
+    trials: 464
   bytes: 2713576738
   verified:
     rows: unverified-unconverted
@@ -534,45 +539,6 @@
   announcement:
     url: null
     note: no human-written release post found; paper and dataset card only
-- id: harbor-parity
-  title: Harbor adapter parity experiments
-  kind: agent-trials
-  unit: trial
-  multi_trial: 'yes'
-  trajectories: full
-  upstream:
-    url: https://huggingface.co/datasets/harborframework/parity-experiments
-    repo: harborframework/parity-experiments
-  license:
-    spdx: unset
-    redistributable: false
-  gate: unknown
-  scale:
-    trials_per_cell: often 3
-    rows_note: HuggingFace returns no file list and no row count for this repo at all.
-  bytes: null
-  verified:
-    rows: unverified-opaque
-    bytes: hf-api-2026-09-14
-    checked: '2026-09-14'
-  runs:
-    first: null
-    last: 2026-04
-    basis: reported
-    note: upstream last modified 2026-04-22.
-  cost:
-    usd: null
-    basis: null
-    note: not published
-  updated: '2026-04-22'
-  notes:
-  - Oracle and parity runs per Harbor adapter - evidence about whether an adapter preserves the original
-    benchmark.
-  - The HF API returns zero file entries for this repo; gate is genuinely unverified.
-  announcement:
-    url: https://harbor-index.org/
-    date: '2026-07-07'
-    publisher: Harbor
 - id: agent-launch-pad
   title: Agent Launch Pad trajectories
   kind: agent-trials
@@ -592,6 +558,7 @@
     agents: 2
     rows_note: terminal-bench-2 (1,204) + scienceagentbench (176), measured. A third `default` config
       restates them at 1,406.
+    trials: 1380
   bytes: 142956961
   verified:
     rows: datasets-server
@@ -666,6 +633,7 @@
   scale:
     rows: 105
     rows_note: from the dataset card. HuggingFace reports 0 rows - raw files, not parquet. UNVERIFIED.
+    trials: 105
   bytes: 23173423
   verified:
     rows: unverified-unconverted
