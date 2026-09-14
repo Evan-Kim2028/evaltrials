@@ -17,8 +17,10 @@ request-only corpora, and leaderboards that publish a number with no underlying 
 
 ## Notable gaps
 
-- **Cost is almost never published.** Two of 27 entries report it. HAL is the only
-  project that treated spend as a headline result.
+- **Cost is almost never published.** Five of 27 entries report it, totalling $376,563.
+  Harbor (>$300K) and HAL (~$40K) are the only projects that treated campaign spend as a
+  headline result. The [EvalEval cost survey](https://huggingface.co/blog/evaleval/eval-costs-bottleneck)
+  (April 2026) is the best single collection of what evals actually cost.
 - **Balanced factorials are rare.** Toolathlon (17 models × 3 runs × 108 tasks) is one
   of the only clean designs. Most coverage is ragged.
 - **Nobody publishes negative results.** Failed runs get filtered out of SFT dumps,

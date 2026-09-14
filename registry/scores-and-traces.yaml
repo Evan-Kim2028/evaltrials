@@ -5,11 +5,11 @@
   title: Epoch AI Benchmarking Hub
   kind: llm-scores
   unit: cell
-  multi_trial: "yes"
-  trajectories: "none"
+  multi_trial: 'yes'
+  trajectories: none
   upstream:
-    url: "https://epoch.ai/benchmarks"
-    homepage: "https://epoch.ai/benchmarks/use-this-data"
+    url: https://epoch.ai/benchmarks
+    homepage: https://epoch.ai/benchmarks/use-this-data
   license:
     spdx: cc-by-4.0
     redistributable: true
@@ -22,34 +22,38 @@
     rows_note: score rows behind the ECI fit, per Epoch's own page.
   bytes: null
   verified:
-    rows: "not-on-hf"
-    bytes: "not-checked"
+    rows: not-on-hf
+    bytes: not-checked
     checked: '2026-09-14'
   runs:
     first: '2023'
     last: 2026-09
     basis: reported
-    "note": the hub is continuously updated; CSV regenerated 2026-09-14.
+    note: the hub is continuously updated; CSV regenerated 2026-09-14.
   cost:
     usd: null
     basis: null
-    "note": "not published as a total, though Epoch reports per-benchmark inference costs in places"
+    note: not published as a total, though Epoch reports per-benchmark inference costs in places
   updated: '2026-09-14'
-  "notes":
-  - "The deepest repeat count of any open source: 16 runs per cell. Best available reference for what\
-    \ eval variance actually looks like."
-  - "Epoch's own run tables are CC-BY and redistributable with credit. The underlying benchmark questions\
-    \ are not Epoch's to relicense."
-  - "Per-question Inspect logs exist behind a CAPTCHA-gated viewer, not as a bulk download."
-  - "LLM benchmarks, not agent trajectories. SWE-bench Verified here is score-level."
+  notes:
+  - 'The deepest repeat count of any open source: 16 runs per cell. Best available reference for what
+    eval variance actually looks like.'
+  - Epoch's own run tables are CC-BY and redistributable with credit. The underlying benchmark questions
+    are not Epoch's to relicense.
+  - Per-question Inspect logs exist behind a CAPTCHA-gated viewer, not as a bulk download.
+  - LLM benchmarks, not agent trajectories. SWE-bench Verified here is score-level.
+  announcement:
+    url: https://epoch.ai/benchmarks/about
+    date: '2025-10-10'
+    publisher: Epoch AI
 - id: swebench-experiments
   title: SWE-bench official submissions
   kind: llm-scores
   unit: cell
-  multi_trial: "no"
+  multi_trial: 'no'
   trajectories: partial
   upstream:
-    url: "https://github.com/SWE-bench/experiments"
+    url: https://github.com/SWE-bench/experiments
     repo: SWE-bench/experiments
   license:
     spdx: mit
@@ -57,38 +61,42 @@
   gate: open
   scale:
     tasks: 2294
-    trials_per_cell: "1 (pass@1 required; pass@k disallowed for the headline number)"
+    trials_per_cell: 1 (pass@1 required; pass@k disallowed for the headline number)
     rows_note: one folder per submission; not row-counted.
   bytes: null
   verified:
-    rows: "not-on-hf"
-    bytes: "not-checked"
+    rows: not-on-hf
+    bytes: not-checked
     checked: '2026-09-14'
   runs:
     first: 2023-10
     last: 2026-09
     basis: reported
-    "note": "submissions accumulate continuously; each folder carries its own metadata.yaml date."
+    note: submissions accumulate continuously; each folder carries its own metadata.yaml date.
   cost:
     usd: null
     basis: null
-    "note": "not published"
+    note: not published
   updated: '2026-09-01'
-  "notes":
-  - "LOOKS like a multi-trial corpus and is not. Different submissions are different systems, not i.i.d.\
-    \ repeats. Never read it as trial variance."
-  - "The field's longest-running per-run archive: every official submission has carried trajectories since\
-    \ 2024."
-  - "Per submission: all_preds.jsonl, metadata.yaml, evaluation logs, trajs/*.traj."
+  notes:
+  - LOOKS like a multi-trial corpus and is not. Different submissions are different systems, not i.i.d.
+    repeats. Never read it as trial variance.
+  - 'The field''s longest-running per-run archive: every official submission has carried trajectories
+    since 2024.'
+  - 'Per submission: all_preds.jsonl, metadata.yaml, evaluation logs, trajs/*.traj.'
+  announcement:
+    url: https://www.swebench.com/
+    date: null
+    publisher: SWE-bench team
 - id: swebench-verified-annotations
   title: SWE-bench Verified human annotations
   kind: labeled-traces
   unit: score
-  multi_trial: "no"
-  trajectories: "none"
+  multi_trial: 'no'
+  trajectories: none
   upstream:
-    url: "https://openai.com/index/introducing-swe-bench-verified/"
-    homepage: "https://huggingface.co/datasets/SWE-bench/SWE-bench_Verified"
+    url: https://openai.com/index/introducing-swe-bench-verified/
+    homepage: https://huggingface.co/datasets/SWE-bench/SWE-bench_Verified
   license:
     spdx: apache-2.0
     redistributable: true
@@ -100,32 +108,36 @@
     rows_note: candidate tasks, 3 human raters each, per OpenAI's post.
   bytes: 8000000
   verified:
-    rows: "not-on-hf"
-    bytes: "not-checked"
+    rows: not-on-hf
+    bytes: not-checked
     checked: '2026-09-14'
   runs:
     first: null
     last: 2024-08
     basis: reported
-    "note": "human annotation campaign, published 2024-08-13. Not model runs."
+    note: human annotation campaign, published 2024-08-13. Not model runs.
   cost:
     usd: null
     basis: null
-    "note": human annotation cost, not compute; not published
+    note: human annotation cost, not compute; not published
   updated: '2024-08-13'
-  "notes":
-  - "Task-validity labels, not agent runs. 3 independent human raters on 1,699 candidate tasks."
-  - "The closest thing the field has to ground truth on whether a benchmark task is broken."
+  notes:
+  - Task-validity labels, not agent runs. 3 independent human raters on 1,699 candidate tasks.
+  - The closest thing the field has to ground truth on whether a benchmark task is broken.
+  announcement:
+    url: https://openai.com/index/introducing-swe-bench-verified/
+    date: '2024-08-13'
+    publisher: OpenAI
 - id: agent-reward-bench
   title: AgentRewardBench
   kind: labeled-traces
   unit: trajectory
-  multi_trial: "no"
+  multi_trial: 'no'
   trajectories: full
   upstream:
-    url: "https://huggingface.co/datasets/McGill-NLP/agent-reward-bench"
+    url: https://huggingface.co/datasets/McGill-NLP/agent-reward-bench
     repo: McGill-NLP/agent-reward-bench
-    paper: "https://arxiv.org/abs/2504.08942"
+    paper: https://arxiv.org/abs/2504.08942
   license:
     spdx: unset
     redistributable: false
@@ -134,8 +146,8 @@
     rows: 1408
     benchmarks: 5
     models: 4
-    rows_note: "measured from the annotations config. The paper headline is 1,302 expert-reviewed trajectories;\
-      \ the 106-row gap is unexplained - check before citing either."
+    rows_note: measured from the annotations config. The paper headline is 1,302 expert-reviewed trajectories;
+      the 106-row gap is unexplained - check before citing either.
   bytes: 38355483224
   verified:
     rows: datasets-server
@@ -145,26 +157,30 @@
     first: null
     last: 2025-04
     basis: reported
-    "note": "paper arXiv:2504.08942."
+    note: paper arXiv:2504.08942.
   cost:
     usd: null
     basis: null
-    "note": "not published"
+    note: not published
   updated: '2025-04-21'
-  "notes":
-  - "1,302 web-agent trajectories with EXPERT human review of whether the run actually succeeded."
-  - "Built to evaluate LLM judges, so it is labelled where almost nothing else is."
+  notes:
+  - 1,302 web-agent trajectories with EXPERT human review of whether the run actually succeeded.
+  - Built to evaluate LLM judges, so it is labelled where almost nothing else is.
   - One trajectory per (task, model). No repeats.
+  announcement:
+    url: https://agent-reward-bench.github.io/
+    date: 2025-04
+    publisher: McGill NLP
 - id: trail-traces
   title: TRAIL failure-attribution traces
   kind: labeled-traces
   unit: trajectory
-  multi_trial: "no"
+  multi_trial: 'no'
   trajectories: full
   upstream:
-    url: "https://huggingface.co/datasets/PatronusAI/TRAIL"
+    url: https://huggingface.co/datasets/PatronusAI/TRAIL
     repo: PatronusAI/TRAIL
-    paper: "https://arxiv.org/abs/2505.08638"
+    paper: https://arxiv.org/abs/2505.08638
   license:
     spdx: mit
     redistributable: true
@@ -182,24 +198,28 @@
     first: null
     last: 2025-05
     basis: reported
-    "note": "paper arXiv:2505.08638."
+    note: paper arXiv:2505.08638.
   cost:
     usd: null
     basis: null
-    "note": "not published"
+    note: not published
   updated: '2025-05-01'
-  "notes":
-  - "148 traces with 841 human-annotated errors across 1,987 OpenTelemetry spans."
-  - "Encoded as OTel spans - the only entry here that already speaks a standard observability schema."
+  notes:
+  - 148 traces with 841 human-annotated errors across 1,987 OpenTelemetry spans.
+  - Encoded as OTel spans - the only entry here that already speaks a standard observability schema.
   - 118 GAIA + 30 SWE-bench. Tiny, but densely labelled.
+  announcement:
+    url: https://arxiv.org/abs/2505.08638
+    date: 2025-05
+    publisher: Patronus AI
 - id: eee-datastore
   title: Every Eval Ever (EvalEval datastore)
   kind: meta-index
   unit: collection
-  multi_trial: "no"
-  trajectories: "none"
+  multi_trial: 'no'
+  trajectories: none
   upstream:
-    url: "https://huggingface.co/datasets/evaleval/EEE_datastore"
+    url: https://huggingface.co/datasets/evaleval/EEE_datastore
     repo: evaleval/EEE_datastore
   license:
     spdx: mit
@@ -207,8 +227,8 @@
   gate: open
   scale:
     rows: 7300
-    rows_note: "CORRECTED. Measured 7,300 score rows across 32 benchmark configs. The widely-quoted 107\
-      \ is the number of eval COLLECTIONS, not rows."
+    rows_note: CORRECTED. Measured 7,300 score rows across 32 benchmark configs. The widely-quoted 107
+      is the number of eval COLLECTIONS, not rows.
   bytes: 3347393406
   verified:
     rows: datasets-server
@@ -218,25 +238,29 @@
     first: null
     last: 2026-09
     basis: reported
-    "note": continuously updated aggregation, not a run campaign.
+    note: continuously updated aggregation, not a run campaign.
   cost:
     usd: null
     basis: null
-    "note": aggregation of published scores; no compute of its own
+    note: aggregation of published scores; no compute of its own
   updated: '2026-09-14'
-  "notes":
-  - "The largest existing consolidation effort - 107 eval collections normalized to one score schema."
-  - "Converts Inspect, HELM and lm-eval-harness output. Samples are optional; trial archives are out of\
-    \ scope."
-  - "Closest prior art to this index, but it consolidates SCORES, not runs."
+  notes:
+  - The largest existing consolidation effort - 107 eval collections normalized to one score schema.
+  - Converts Inspect, HELM and lm-eval-harness output. Samples are optional; trial archives are out of
+    scope.
+  - Closest prior art to this index, but it consolidates SCORES, not runs.
+  announcement:
+    url: https://huggingface.co/blog/evaleval/eval-costs-bottleneck
+    date: '2026-04-29'
+    publisher: EvalEval / HuggingFace
 - id: openeval-commons
   title: OpenEval (Open-Eval-Commons)
   kind: meta-index
   unit: score
-  multi_trial: "no"
-  trajectories: "none"
+  multi_trial: 'no'
+  trajectories: none
   upstream:
-    url: "https://huggingface.co/datasets/Open-Eval-Commons/OpenEval"
+    url: https://huggingface.co/datasets/Open-Eval-Commons/OpenEval
     repo: Open-Eval-Commons/OpenEval
   license:
     spdx: cc-by-nc-4.0
@@ -244,7 +268,7 @@
   gate: open
   scale:
     rows: 21504018
-    rows_note: "measured: 21,504,018 response rows over 318,092 items and 28 benchmarks."
+    rows_note: 'measured: 21,504,018 response rows over 318,092 items and 28 benchmarks.'
   bytes: 9271591381
   verified:
     rows: datasets-server
@@ -254,23 +278,26 @@
     first: null
     last: 2026-09
     basis: reported
-    "note": aggregation, not a run campaign.
+    note: aggregation, not a run campaign.
   cost:
     usd: null
     basis: null
-    "note": aggregation; no compute of its own
+    note: aggregation; no compute of its own
   updated: '2026-09-05'
-  "notes":
-  - "Item-level LLM responses rather than agent runs. Good for item-response-theory work."
-  - "Non-commercial licence, which rules it out of a lot of downstream use."
+  notes:
+  - Item-level LLM responses rather than agent runs. Good for item-response-theory work.
+  - Non-commercial licence, which rules it out of a lot of downstream use.
+  announcement:
+    url: null
+    note: no human-written release post found; paper and dataset card only
 - id: theagentcompany-experiments
   title: TheAgentCompany experiments
   kind: agent-trials
   unit: cell
-  multi_trial: "no"
+  multi_trial: 'no'
   trajectories: full
   upstream:
-    url: "https://github.com/TheAgentCompany/experiments"
+    url: https://github.com/TheAgentCompany/experiments
     repo: TheAgentCompany/experiments
   license:
     spdx: mit
@@ -282,38 +309,41 @@
     rows_note: per-model trajectory folders in git, not row-counted.
   bytes: null
   verified:
-    rows: "not-on-hf"
-    bytes: "not-checked"
+    rows: not-on-hf
+    bytes: not-checked
     checked: '2026-09-14'
   runs:
     first: null
     last: 2025-06
     basis: reported
-    "note": upstream last updated 2025-06.
+    note: upstream last updated 2025-06.
   cost:
     usd: null
     basis: null
-    "note": "not published"
+    note: not published
   updated: '2025-06-01'
-  "notes":
-  - "Trajectories and screenshots per model, but the leaderboard is one attempt per task. No variance."
-- id: "nvidia-open-swe-traces"
-  title: "NVIDIA Open-SWE-Traces"
+  notes:
+  - Trajectories and screenshots per model, but the leaderboard is one attempt per task. No variance.
+  announcement:
+    url: null
+    note: no human-written release post found; paper and dataset card only
+- id: nvidia-open-swe-traces
+  title: NVIDIA Open-SWE-Traces
   kind: sft-traces
   unit: trajectory
-  multi_trial: "no"
+  multi_trial: 'no'
   trajectories: full
   upstream:
-    url: "https://huggingface.co/datasets/nvidia/Open-SWE-Traces"
-    repo: "nvidia/Open-SWE-Traces"
+    url: https://huggingface.co/datasets/nvidia/Open-SWE-Traces
+    repo: nvidia/Open-SWE-Traces
   license:
     spdx: cc-by-4.0
     redistributable: true
   gate: open
   scale:
     rows: 511668
-    rows_note: "CORRECTED from a 200k estimate. Measured 511,668 across v1.0 (151,219), v1.1 (253,182)\
-      \ and v1.2 (107,267)."
+    rows_note: CORRECTED from a 200k estimate. Measured 511,668 across v1.0 (151,219), v1.1 (253,182)
+      and v1.2 (107,267).
   bytes: 42599603552
   verified:
     rows: datasets-server
@@ -323,16 +353,20 @@
     first: null
     last: 2026-06
     basis: reported
-    "note": "upstream last modified 2026-06; SFT generation, not an eval campaign."
+    note: upstream last modified 2026-06; SFT generation, not an eval campaign.
   cost:
     usd: null
     basis: null
-    "note": "not published; 200k+ agent rollouts is a very large spend"
+    note: not published; 200k+ agent rollouts is a very large spend
   updated: '2026-06-01'
-  "notes":
-  - "Training data, not evaluation. Success-filtered and usually single-teacher."
-  - "Listed so nobody mistakes its size for eval coverage. Representative of a whole family: SWE-smith\
-    \ (76k), SWE-Gym, nebius SWE-rebench (67k), R2E-Gym."
+  notes:
+  - Training data, not evaluation. Success-filtered and usually single-teacher.
+  - 'Listed so nobody mistakes its size for eval coverage. Representative of a whole family: SWE-smith
+    (76k), SWE-Gym, nebius SWE-rebench (67k), R2E-Gym.'
+  announcement:
+    url: https://arxiv.org/abs/2606.16038
+    date: '2026-06-14'
+    publisher: NVIDIA
 - id: swe-smith-trajectories
   title: SWE-smith trajectories
   kind: sft-traces
@@ -340,9 +374,9 @@
   multi_trial: partial
   trajectories: full
   upstream:
-    url: "https://huggingface.co/datasets/SWE-bench/SWE-smith-trajectories"
+    url: https://huggingface.co/datasets/SWE-bench/SWE-smith-trajectories
     repo: SWE-bench/SWE-smith-trajectories
-    paper: "https://arxiv.org/abs/2504.21798"
+    paper: https://arxiv.org/abs/2504.21798
   license:
     spdx: mit
     redistributable: true
@@ -360,22 +394,27 @@
     first: null
     last: 2025-04
     basis: reported
-    "note": "paper arXiv:2504.21798; SFT generation."
+    note: paper arXiv:2504.21798; SFT generation.
   cost:
     usd: null
+    note: no total published. The paper caps each expert trajectory at 75 steps and $2, so the 76,002-row
+      dump has an upper bound near $152K.
     basis: null
-    "note": "not published"
   updated: '2025-04-01'
-  "notes":
-  - "SFT corpus generated with SWE-agent + Claude 3.7. Repeats exist but are success-filtered."
+  notes:
+  - SFT corpus generated with SWE-agent + Claude 3.7. Repeats exist but are success-filtered.
+  announcement:
+    url: https://blog.rse.princeton.edu/2025/12/neurips-spotlight-swe-smith-scaling-data-for-software-engineering-agents/
+    date: '2025-12-17'
+    publisher: Princeton RSE
 - id: lmsys-chat-1m
   title: LMSYS-Chat-1M
   kind: llm-scores
   unit: score
-  multi_trial: "no"
-  trajectories: "none"
+  multi_trial: 'no'
+  trajectories: none
   upstream:
-    url: "https://huggingface.co/datasets/lmsys/lmsys-chat-1m"
+    url: https://huggingface.co/datasets/lmsys/lmsys-chat-1m
     repo: lmsys/lmsys-chat-1m
   license:
     spdx: other
@@ -384,7 +423,7 @@
   scale:
     rows: 1000000
     models: 25
-    rows_note: "the name is the count; gated, row counter returns 401. UNVERIFIED."
+    rows_note: the name is the count; gated, row counter returns 401. UNVERIFIED.
   bytes: 1488861436
   verified:
     rows: unverified-gated
@@ -394,12 +433,15 @@
     first: 2023-04
     last: 2023-08
     basis: reported
-    "note": "in-the-wild traffic collected Apr-Aug 2023, per the dataset card."
+    note: in-the-wild traffic collected Apr-Aug 2023, per the dataset card.
   cost:
     usd: null
     basis: null
-    "note": in-the-wild traffic, not commissioned runs
+    note: in-the-wild traffic, not commissioned runs
   updated: '2023-08-01'
-  "notes":
-  - "In-the-wild conversations and human preference, not benchmark trials. Wrong unit for variance work;\
-    \ listed to close the loop."
+  notes:
+  - In-the-wild conversations and human preference, not benchmark trials. Wrong unit for variance work;
+    listed to close the loop.
+  announcement:
+    url: null
+    note: no human-written release post found; paper and dataset card only

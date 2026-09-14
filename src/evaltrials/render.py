@@ -103,6 +103,13 @@ def _detail(e) -> list[str]:
         links.append(f"[{label}]({v})" if v.startswith("http") else f"{label}: `{v}`")
     out.append(f"`{e.id}` · " + " · ".join(links))
     out.append("")
+    ann = e.raw.get("announcement") or {}
+    if ann.get("url"):
+        who = ann.get("publisher") or "upstream"
+        when = f", {ann['date']}" if ann.get("date") else ""
+        out.append(f"- **announced** [{who}{when}]({ann['url']})")
+    elif ann.get("note"):
+        out.append(f"- **announced** — {ann['note']}")
     r = e.runs
     if r.get("last"):
         out.append(f"- **trials run** {_runs(e)}" + (f" — {r['note']}" if r.get("note") else ""))
@@ -110,7 +117,14 @@ def _detail(e) -> list[str]:
                f"**trajectories** `{e.trajectories}` · **gate** `{e.gate}`")
     if e.scale:
         out.append("- **scale** " + " · ".join(
-            f"{k} {_num(v) if isinstance(v, int) else v}" for k, v in e.scale.items() if v is not None))
+            f"{k} {_num(v) if isinstance(v, int) else v}"
+            for k, v in e.scale.items() if v is not None and k != "rows_note"))
+        if e.scale.get("rows_note"):
+            out.append(f"- **row count** {e.scale['rows_note']}")
+    v = e.raw.get("verified") or {}
+    if v.get("rows"):
+        out.append(f"- **verified** rows via `{v['rows']}`, size via `{v.get('bytes')}`, "
+                   f"checked {v.get('checked')}")
     if e.bytes:
         out.append(f"- **size** {human_bytes(e.bytes)}")
     cost = e.cost or {}
@@ -171,6 +185,12 @@ def _by_the_numbers(entries) -> list[str]:
                f"most have no row count and no size, because neither is cheaply checkable.")
     out.append("")
 
+    withann = [e for e in entries if (e.raw.get("announcement") or {}).get("url")]
+    out.append(f"- **{len(withann)} of {n}** have a primary-source announcement — a blog post, "
+               f"project page or paper the authors wrote. The other {n - len(withann)} were "
+               f"published with nothing but a dataset card.")
+    out.append("")
+
     out.append("**What it cost to make**")
     out.append("")
     known = [e for e in entries if e.cost.get("usd")]
@@ -185,9 +205,12 @@ def _by_the_numbers(entries) -> list[str]:
             extra.append(f"{c['agent_hours']:,} agent-hours")
         suffix = f" — {', '.join(extra)}" if extra else ""
         out.append(f"  - {e.title}: **${c['usd']:,.0f}** ({c['basis']}){suffix}")
-    out.append(f"- The other **{n - len(known)}** published nothing. Harbor-Adapter alone is "
-               f"793,698 frontier-agent trials with no cost figure attached; it is "
-               f"comfortably the largest undisclosed spend in the index.")
+    silent = [e for e in entries if not e.cost.get("usd") and e.kind == "agent-trials"]
+    biggest = max(silent, key=lambda e: e.bytes or 0, default=None)
+    tail = (f" The largest agent-run dataset that still publishes no cost is "
+            f"{biggest.title} at {human_bytes(biggest.bytes)}." if biggest and biggest.bytes else "")
+    out.append(f"- The other **{n - len(known)}** published nothing.{tail} "
+               f"Cost disclosure is the single rarest field in this index.")
     out.append("")
 
     trial = [e for e in entries if e.unit == "trial" and e.multi_trial == "yes"]

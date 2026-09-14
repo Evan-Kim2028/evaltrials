@@ -108,3 +108,13 @@ def test_host_and_token_are_derivable(entry):
     assert isinstance(entry.needs_token, bool)
     if entry.gate == "open":
         assert not entry.needs_token
+
+
+@pytest.mark.parametrize("entry", ENTRIES.values(), ids=list(ENTRIES))
+def test_announcement_is_declared(entry):
+    """Either a primary source, or an explicit note that none exists."""
+    ann = entry.raw.get("announcement")
+    assert ann is not None, "every entry must declare an announcement block"
+    assert ann.get("url") or ann.get("note")
+    if ann.get("url"):
+        assert ann["url"].startswith("http")

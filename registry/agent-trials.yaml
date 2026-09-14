@@ -5,21 +5,21 @@
   title: Harbor-Adapter
   kind: agent-trials
   unit: trial
-  multi_trial: "yes"
+  multi_trial: 'yes'
   trajectories: full
   upstream:
-    url: "https://huggingface.co/datasets/kendx/Harbor-Adapter"
+    url: https://huggingface.co/datasets/kendx/Harbor-Adapter
     repo: kendx/Harbor-Adapter
-    paper: "https://arxiv.org/abs/2609.04298"
-    homepage: "https://harbor-index.org/"
+    paper: https://arxiv.org/abs/2609.04298
+    homepage: https://harbor-index.org/
   license:
     spdx: other
     redistributable: false
   gate: open
   scale:
     rows: 178647
-    rows_note: "manifest config = 178,647 cells; the trajectories config holds 793,698 individual trials.\
-      \ Both measured."
+    rows_note: manifest config = 178,647 cells; the trajectories config holds 793,698 individual trials.
+      Both measured.
     trials: 793698
     benchmarks: 60
     tasks: 7819
@@ -35,31 +35,36 @@
     first: '2026-03-25'
     last: '2026-05-26'
     basis: measured
-    "note": "measured from first_step_at across 783,135 extracted trials; 94% ran in April 2026. Dataset\
-      \ was not uploaded until 2026-07-11."
+    note: measured from first_step_at across 783,135 extracted trials; 94% ran in April 2026. Dataset
+      was not uploaded until 2026-07-11.
   cost:
-    usd: null
-    basis: null
-    "note": "not published. 794k frontier-agent trials; the compute behind this is the largest single\
-      \ spend in the index."
+    usd: 300000
+    basis: reported
+    note: harbor-index.org states the 54-benchmark sweep 'consumed 226B tokens and over $300K of compute'.
+      Verified at the source 2026-09-14. This is the largest disclosed agent-eval spend anywhere.
+    tokens_in: 226000000000
   updated: '2026-07-11'
-  "notes":
-  - "The broadest public multi-benchmark agent run dump: 60 benchmarks in one schema."
-  - "Dataset card says license `other` and ships no license text. Fetch from upstream; do not mirror."
-  - "trials_per_cell is censored at 5, not sampled - do not treat it as a designed k."
-  - "Reward scale differs per benchmark. Never average reward across benchmarks."
-  - "The 16 MB manifest parquet is cell-level and carries no reward column; rewards live inside the 316\
-    \ GB of per-trial archives."
+  notes:
+  - 'The broadest public multi-benchmark agent run dump: 60 benchmarks in one schema.'
+  - Dataset card says license `other` and ships no license text. Fetch from upstream; do not mirror.
+  - trials_per_cell is censored at 5, not sampled - do not treat it as a designed k.
+  - Reward scale differs per benchmark. Never average reward across benchmarks.
+  - The 16 MB manifest parquet is cell-level and carries no reward column; rewards live inside the 316
+    GB of per-trial archives.
+  announcement:
+    url: https://harbor-index.org/
+    date: '2026-07-07'
+    publisher: Harbor / Harbor-Index
 - id: terminalbench-trajectories
   title: Terminal-Bench leaderboard trajectories
   kind: agent-trials
   unit: trial
-  multi_trial: "yes"
+  multi_trial: 'yes'
   trajectories: full
   upstream:
-    url: "https://huggingface.co/datasets/yoonholee/terminalbench-trajectories"
-    repo: "yoonholee/terminalbench-trajectories"
-    homepage: "https://www.tbench.ai/"
+    url: https://huggingface.co/datasets/yoonholee/terminalbench-trajectories
+    repo: yoonholee/terminalbench-trajectories
+    homepage: https://www.tbench.ai/
   license:
     spdx: apache-2.0
     redistributable: true
@@ -81,36 +86,39 @@
     first: '2025-10-31'
     last: '2026-03-05'
     basis: measured
-    "note": "measured from started_at. PARTIAL: only 22,598 of 52,104 rows carry a usable timestamp; 29,506\
-      \ have an empty string."
+    note: 'measured from started_at. PARTIAL: only 22,598 of 52,104 rows carry a usable timestamp; 29,506
+      have an empty string.'
   cost:
     usd: 21563
     basis: measured
-    "note": "summed from the dataset's own cost_cents column, 2026-09-14. LOWER BOUND: 39.2% of trials\
-      \ report zero cost, and 237 rows carry a NEGATIVE cost (min -$15.99)."
+    note: 'summed from the dataset''s own cost_cents column, 2026-09-14. LOWER BOUND: 39.2% of trials
+      report zero cost, and 237 rows carry a NEGATIVE cost (min -$15.99).'
     tokens_in: 32753686924
     tokens_out: 632468325
     agent_hours: 10251
   updated: '2026-03-09'
-  "notes":
-  - "Best cost data in the index: per-trial USD, tokens and wall-clock on every row."
-  - "26 scaffolds on the same 89 tasks - the widest scaffold axis available anywhere."
-  - "Shares an identical task-name namespace with Harbor's terminal-bench adapter (89 tasks in both),\
-    \ so the two can be compared task-for-task."
-  - "Scraped from a public leaderboard, not re-run. Self-reported. TB found cheating on the 2.0 board\
-    \ in April 2026 and now mandates trajectories."
-  - "`steps` (the trajectory body) is present on 34,462 of 52,104 rows; token counts on the same 66.1%."
+  notes:
+  - 'Best cost data in the index: per-trial USD, tokens and wall-clock on every row.'
+  - 26 scaffolds on the same 89 tasks - the widest scaffold axis available anywhere.
+  - Shares an identical task-name namespace with Harbor's terminal-bench adapter (89 tasks in both), so
+    the two can be compared task-for-task.
+  - Scraped from a public leaderboard, not re-run. Self-reported. TB found cheating on the 2.0 board in
+    April 2026 and now mandates trajectories.
+  - '`steps` (the trajectory body) is present on 34,462 of 52,104 rows; token counts on the same 66.1%.'
+  announcement:
+    url: null
+    note: no human-written release post found; paper and dataset card only
 - id: hal-traces
   title: HAL (Holistic Agent Leaderboard) traces
   kind: agent-trials
   unit: trial
-  multi_trial: "yes"
+  multi_trial: 'yes'
   trajectories: encrypted
   upstream:
-    url: "https://huggingface.co/datasets/agent-evals/hal_traces"
+    url: https://huggingface.co/datasets/agent-evals/hal_traces
     repo: agent-evals/hal_traces
-    homepage: "https://hal.cs.princeton.edu/"
-    paper: "https://arxiv.org/abs/2510.11977"
+    homepage: https://hal.cs.princeton.edu/
+    paper: https://arxiv.org/abs/2510.11977
   license:
     spdx: unset
     redistributable: false
@@ -120,8 +128,8 @@
     benchmarks: 9
     models: 9
     trials_per_cell: varies by benchmark protocol
-    rows_note: "from the HAL paper. HuggingFace cannot count these rows - they are encrypted zips, not\
-      \ parquet."
+    rows_note: from the HAL paper. HuggingFace cannot count these rows - they are encrypted zips, not
+      parquet.
   bytes: 113072877091
   verified:
     rows: paper-only
@@ -131,21 +139,24 @@
     first: null
     last: 2025-10
     basis: reported
-    "note": "run dates are not in the public metadata; the flagship 21,730-rollout study was published\
-      \ 2025-10."
+    note: run dates are not in the public metadata; the flagship 21,730-rollout study was published 2025-10.
   cost:
     usd: 40000
     basis: reported
-    "note": "the HAL paper reports ~$40k and 2.5B tokens for the flagship 21,730-rollout study."
+    note: the HAL paper reports ~$40k and 2.5B tokens for the flagship 21,730-rollout study.
     tokens_in: null
     tokens_out: null
   updated: '2026-02-01'
-  "notes":
-  - "The clearest published cost-per-rollout in the field: ~$1.84 per rollout."
-  - "Traces are encrypted ON PURPOSE to stop scraping and benchmark contamination. Decrypt locally via\
-    \ hal-decrypt; do not redistribute decrypted bytes."
-  - "Covers AssistantBench, GAIA, Online Mind2Web, CORE-Bench, SciCode, ScienceAgentBench, SWE-bench Verified\
-    \ Mini, TAU-bench Airline, USACO."
+  notes:
+  - 'The clearest published cost-per-rollout in the field: ~$1.84 per rollout.'
+  - Traces are encrypted ON PURPOSE to stop scraping and benchmark contamination. Decrypt locally via
+    hal-decrypt; do not redistribute decrypted bytes.
+  - Covers AssistantBench, GAIA, Online Mind2Web, CORE-Bench, SciCode, ScienceAgentBench, SWE-bench Verified
+    Mini, TAU-bench Airline, USACO.
+  announcement:
+    url: https://hal.cs.princeton.edu/
+    date: '2025-10-13'
+    publisher: Princeton CITP
 - id: lhtb-leaderboard
   title: Long-Horizon Terminal-Bench leaderboard
   kind: agent-trials
@@ -153,9 +164,9 @@
   multi_trial: partial
   trajectories: full
   upstream:
-    url: "https://huggingface.co/datasets/IntelligenceLab/LHTB-leaderboard"
+    url: https://huggingface.co/datasets/IntelligenceLab/LHTB-leaderboard
     repo: IntelligenceLab/LHTB-leaderboard
-    paper: "https://arxiv.org/abs/2607.08964"
+    paper: https://arxiv.org/abs/2607.08964
   license:
     spdx: apache-2.0
     redistributable: true
@@ -165,7 +176,7 @@
     benchmarks: 1
     tasks: 46
     models: 26
-    rows_note: "per_task config. The separate leaderboard config holds 26 submission rows."
+    rows_note: per_task config. The separate leaderboard config holds 26 submission rows.
   bytes: 51641148162
   verified:
     rows: datasets-server
@@ -175,28 +186,32 @@
     first: null
     last: 2026-07
     basis: reported
-    "note": "paper arXiv:2607.08964; per-submission dates are inside submissions/."
+    note: paper arXiv:2607.08964; per-submission dates are inside submissions/.
   cost:
     usd: null
+    note: no total published, but the project page reports $2.50-$73 per task and ~9.9M tokens per task
+      across an 18-model suite - the highest per-task cost in this index.
     basis: null
-    "note": "not published. long-horizon tasks with per-model agent_budget_sec, so per-trial spend is\
-      \ high."
   updated: '2026-08-20'
-  "notes":
-  - "The `per_task` config has NO trial_id: it is already aggregated. Do not compute trial variance from\
-    \ it."
-  - "48.1 GB across 66,805 files. A single asciinema recording reaches 9.8 GB. Never clone the whole repo."
-  - "Raw per-trial trajectory.json + recording.cast + reward.txt live under submissions/."
+  notes:
+  - 'The `per_task` config has NO trial_id: it is already aggregated. Do not compute trial variance from
+    it.'
+  - 48.1 GB across 66,805 files. A single asciinema recording reaches 9.8 GB. Never clone the whole repo.
+  - Raw per-trial trajectory.json + recording.cast + reward.txt live under submissions/.
+  announcement:
+    url: https://zli12321.github.io/LHTB/
+    date: 2026-07
+    publisher: IntelligenceLab
 - id: toolathlon-trajectories
   title: Toolathlon trajectories
   kind: agent-trials
   unit: trial
-  multi_trial: "yes"
+  multi_trial: 'yes'
   trajectories: full
   upstream:
-    url: "https://huggingface.co/datasets/hkust-nlp/Toolathlon-Trajectories"
+    url: https://huggingface.co/datasets/hkust-nlp/Toolathlon-Trajectories
     repo: hkust-nlp/Toolathlon-Trajectories
-    paper: "https://arxiv.org/abs/2510.25726"
+    paper: https://arxiv.org/abs/2510.25726
   license:
     spdx: cc-by-4.0
     redistributable: true
@@ -206,7 +221,7 @@
     tasks: 108
     models: 17
     trials_per_cell: '3'
-    rows_note: "from the dataset card; the repo is gated so the row counter returns 401. UNVERIFIED."
+    rows_note: from the dataset card; the repo is gated so the row counter returns 401. UNVERIFIED.
   bytes: 1997168952
   verified:
     rows: unverified-gated
@@ -216,26 +231,30 @@
     first: null
     last: 2025-10
     basis: reported
-    "note": "paper arXiv:2510.25726; not recorded per trial in the public dump."
+    note: paper arXiv:2510.25726; not recorded per trial in the public dump.
   cost:
     usd: null
     basis: null
-    "note": "not published"
+    note: not published
   updated: '2025-12-05'
-  "notes":
-  - "Clean 17 models x 3 runs x 108 tasks design - one of the few balanced factorials in the index."
-  - "Tool-use axis; JSONL messages + tool_calls + an eval boolean."
-  - "Gated: requires accepting terms with an HF token."
+  notes:
+  - Clean 17 models x 3 runs x 108 tasks design - one of the few balanced factorials in the index.
+  - Tool-use axis; JSONL messages + tool_calls + an eval boolean.
+  - 'Gated: requires accepting terms with an HF token.'
+  announcement:
+    url: https://arxiv.org/abs/2510.25726
+    date: 2025-10
+    publisher: HKUST NLP
 - id: malt-transcripts
   title: METR MALT public transcripts
   kind: agent-trials
   unit: trial
-  multi_trial: "yes"
+  multi_trial: 'yes'
   trajectories: full
   upstream:
-    url: "https://huggingface.co/datasets/metr-evals/malt-transcripts-public"
+    url: https://huggingface.co/datasets/metr-evals/malt-transcripts-public
     repo: metr-evals/malt-transcripts-public
-    homepage: "https://metr.org/blog/2025-10-14-malt-dataset-of-natural-and-prompted-behaviors"
+    homepage: https://metr.org/blog/2025-10-14-malt-dataset-of-natural-and-prompted-behaviors
   license:
     spdx: mit
     redistributable: false
@@ -245,7 +264,7 @@
     tasks: 169
     models: 19
     trials_per_cell: '>=5 under the HCAST protocol'
-    rows_note: "from METR's release post; gated, row counter returns 401. UNVERIFIED."
+    rows_note: from METR's release post; gated, row counter returns 401. UNVERIFIED.
   bytes: 8482061943
   verified:
     rows: unverified-gated
@@ -255,27 +274,31 @@
     first: null
     last: 2025-10
     basis: reported
-    "note": MALT released 2025-10-14; per-run dates not published.
+    note: MALT released 2025-10-14; per-run dates not published.
   cost:
     usd: null
     basis: null
-    "note": "not published"
+    note: not published
   updated: '2026-03-24'
-  "notes":
-  - "Public split is 7,179 of 10,919 runs; the rest is request-only."
-  - "MIT licensed but HF-gated, and METR withheld internal-task transcripts to limit contamination. Fetch\
-    \ with your own token; do not mirror."
-  - "Paired with METR/eval-analysis-public runs.jsonl, which carries per-run score_binarized and human_minutes."
+  notes:
+  - Public split is 7,179 of 10,919 runs; the rest is request-only.
+  - MIT licensed but HF-gated, and METR withheld internal-task transcripts to limit contamination. Fetch
+    with your own token; do not mirror.
+  - Paired with METR/eval-analysis-public runs.jsonl, which carries per-run score_binarized and human_minutes.
+  announcement:
+    url: https://metr.org/blog/2025-10-14-malt-dataset-of-natural-and-prompted-behaviors
+    date: '2025-10-14'
+    publisher: METR
 - id: metr-eval-analysis
   title: METR eval-analysis-public (time-horizon runs)
   kind: agent-trials
   unit: trial
-  multi_trial: "yes"
-  trajectories: "none"
+  multi_trial: 'yes'
+  trajectories: none
   upstream:
-    url: "https://github.com/METR/eval-analysis-public"
+    url: https://github.com/METR/eval-analysis-public
     repo: METR/eval-analysis-public
-    paper: "https://arxiv.org/abs/2503.17354"
+    paper: https://arxiv.org/abs/2503.17354
   license:
     spdx: mit
     redistributable: true
@@ -286,32 +309,36 @@
     rows_note: runs.jsonl is not row-counted upstream.
   bytes: 22400000
   verified:
-    rows: "not-on-hf"
-    bytes: "not-checked"
+    rows: not-on-hf
+    bytes: not-checked
     checked: '2026-09-14'
   runs:
     first: null
     last: 2026-01
     basis: reported
-    "note": Time Horizon 1.1 published 2026-01-29.
+    note: Time Horizon 1.1 published 2026-01-29.
   cost:
     usd: null
     basis: null
-    "note": "not published"
+    note: not published
   updated: '2026-01-29'
-  "notes":
-  - "runs.jsonl is only 22.4 MB and carries task_id, model alias, score_binarized, score_cont and human_minutes."
-  - "human_minutes is the rarest field in the index: a human-time calibration per task."
-  - "Scores only, no trajectories. Transcripts live separately at transcripts.metr.org."
+  notes:
+  - runs.jsonl is only 22.4 MB and carries task_id, model alias, score_binarized, score_cont and human_minutes.
+  - 'human_minutes is the rarest field in the index: a human-time calibration per task.'
+  - Scores only, no trajectories. Transcripts live separately at transcripts.metr.org.
+  announcement:
+    url: https://metr.org/blog/2026-07-21-expenditure-horizon/
+    date: '2026-07-21'
+    publisher: METR
 - id: osworld-verified-trajs
   title: OSWorld-Verified Ubuntu trajectories
   kind: agent-trials
   unit: trial
-  multi_trial: "yes"
+  multi_trial: 'yes'
   trajectories: full
   upstream:
-    url: "https://modelscope.cn/datasets/xlangai/ubuntu_osworld_verified_trajs"
-    homepage: "https://github.com/xlang-ai/OSWorld"
+    url: https://modelscope.cn/datasets/xlangai/ubuntu_osworld_verified_trajs
+    homepage: https://github.com/xlang-ai/OSWorld
   license:
     spdx: mit
     redistributable: true
@@ -320,38 +347,42 @@
     tasks: 369
     models: 15
     trials_per_cell: multiple, at 15/50/100 step budgets
-    rows_note: "not stated upstream; hosted on ModelScope."
+    rows_note: not stated upstream; hosted on ModelScope.
   bytes: 480000000000
   verified:
-    rows: "not-on-hf"
-    bytes: "not-checked"
+    rows: not-on-hf
+    bytes: not-checked
     checked: '2026-09-14'
   runs:
     first: null
     last: 2026-08
     basis: reported
-    "note": "dataset updated 2026-08; run dates not published. 480 GB is the card's decimal figure."
+    note: dataset updated 2026-08; run dates not published. 480 GB is the card's decimal figure.
   cost:
     usd: null
     basis: null
-    "note": "not published"
+    note: not published
   updated: '2026-08-01'
-  "notes":
-  - "Largest entry in the index by bytes: 480 GB of GUI screenshots and actions."
-  - "MIT, but the card asks that it not be used as computer-use training data."
-  - "Screenshots capture third-party desktop and web UIs; that, not the licence header, is the real redistribution\
-    \ question."
+  notes:
+  - 'Largest entry in the index by bytes: 480 GB of GUI screenshots and actions.'
+  - MIT, but the card asks that it not be used as computer-use training data.
+  - Screenshots capture third-party desktop and web UIs; that, not the licence header, is the real redistribution
+    question.
   - Hosted on ModelScope, not HuggingFace.
+  announcement:
+    url: https://github.com/xlang-ai/OSWorld
+    date: 2026-08
+    publisher: XLang Lab
 - id: tau-bench-trials
   title: tau-bench / tau2-bench simulations
   kind: agent-trials
   unit: trial
-  multi_trial: "yes"
+  multi_trial: 'yes'
   trajectories: full
   upstream:
-    url: "https://github.com/sierra-research/tau2-bench"
+    url: https://github.com/sierra-research/tau2-bench
     repo: sierra-research/tau2-bench
-    paper: "https://arxiv.org/abs/2506.07982"
+    paper: https://arxiv.org/abs/2506.07982
   license:
     spdx: mit
     redistributable: true
@@ -362,31 +393,35 @@
     rows_note: trajectories are committed to git, not row-counted.
   bytes: null
   verified:
-    rows: "not-on-hf"
-    bytes: "not-checked"
+    rows: not-on-hf
+    bytes: not-checked
     checked: '2026-09-14'
   runs:
     first: null
     last: null
     basis: unknown
-    "note": "historical_trajectories are committed to git without run timestamps."
+    note: historical_trajectories are committed to git without run timestamps.
   cost:
     usd: null
     basis: null
-    "note": "not published"
+    note: not published
   updated: '2026-07-15'
-  "notes":
-  - "One of the few benchmarks where repeated trials are the headline metric rather than an afterthought."
-  - "Retail, airline and telecom domains. Leaderboard asks for 4 trials x 3 domains."
-  - "The repo CHANGELOG documents 75+ task fixes, which doubles as a list of known-invalid tasks."
+  notes:
+  - One of the few benchmarks where repeated trials are the headline metric rather than an afterthought.
+  - Retail, airline and telecom domains. Leaderboard asks for 4 trials x 3 domains.
+  - The repo CHANGELOG documents 75+ task fixes, which doubles as a list of known-invalid tasks.
+  announcement:
+    url: https://arxiv.org/abs/2506.07982
+    date: 2025-06
+    publisher: Sierra Research
 - id: paperbench-runs
   title: PaperBench runs
   kind: agent-trials
   unit: trial
-  multi_trial: "yes"
+  multi_trial: 'yes'
   trajectories: full
   upstream:
-    url: "https://github.com/openai/frontier-evals/tree/main/project/paperbench"
+    url: https://github.com/openai/frontier-evals/tree/main/project/paperbench
     repo: openai/frontier-evals
   license:
     spdx: mit
@@ -398,31 +433,36 @@
     rows_note: run directories in git, not row-counted.
   bytes: null
   verified:
-    rows: "not-on-hf"
-    bytes: "not-checked"
+    rows: not-on-hf
+    bytes: not-checked
     checked: '2026-09-14'
   runs:
     first: null
     last: 2025-04
     basis: reported
-    "note": paper published 2025-04.
+    note: paper published 2025-04.
   cost:
-    usd: null
-    basis: null
-    "note": "not published; long-horizon paper-reproduction runs are expensive per trial"
+    usd: 9500
+    basis: reported
+    note: approx $400 API per paper x 20 papers plus $1,320 of o3-mini grading, per the PaperBench paper.
+      A six-model three-seed sweep would exceed $150K.
   updated: '2025-04-01'
-  "notes":
-  - "Leaderboard reports 3 runs with SEM, so error bars are available."
+  notes:
+  - Leaderboard reports 3 runs with SEM, so error bars are available.
+  announcement:
+    url: https://arxiv.org/abs/2504.01848
+    date: 2025-04
+    publisher: OpenAI
 - id: mle-bench-runs
   title: MLE-bench run groups
   kind: agent-trials
   unit: cell
-  multi_trial: "yes"
+  multi_trial: 'yes'
   trajectories: partial
   upstream:
-    url: "https://github.com/openai/mle-bench"
+    url: https://github.com/openai/mle-bench
     repo: openai/mle-bench
-    paper: "https://arxiv.org/abs/2410.07095"
+    paper: https://arxiv.org/abs/2410.07095
   license:
     spdx: mit
     redistributable: true
@@ -433,30 +473,35 @@
     rows_note: grading reports per run group, not row-counted.
   bytes: null
   verified:
-    rows: "not-on-hf"
-    bytes: "not-checked"
+    rows: not-on-hf
+    bytes: not-checked
     checked: '2026-09-14'
   runs:
     first: null
     last: 2024-10
     basis: reported
-    "note": "paper arXiv:2410.07095."
+    note: paper arXiv:2410.07095.
   cost:
-    usd: null
-    basis: null
-    "note": "not published"
+    usd: 5500
+    basis: reported
+    note: approx $5,500 for a single seed, plus 1,800 GPU-hours and 127.5M input / 15M output tokens for
+      o1-preview, per the paper and the EvalEval cost survey.
   updated: '2024-10-01'
-  "notes":
+  notes:
   - 75 Kaggle competitions x AIDE / MLAB / OpenDevin scaffolds.
-  - "Grading reports per run group; step traces are not packaged per trial."
+  - Grading reports per run group; step traces are not packaged per trial.
+  announcement:
+    url: https://arxiv.org/abs/2410.07095
+    date: 2024-10
+    publisher: OpenAI
 - id: androidworld-seerray
   title: AndroidWorld evaluation traces (SeerRay)
   kind: agent-trials
   unit: trial
-  multi_trial: "yes"
+  multi_trial: 'yes'
   trajectories: full
   upstream:
-    url: "https://huggingface.co/datasets/SeerRay-Lab/Android-World-Eval"
+    url: https://huggingface.co/datasets/SeerRay-Lab/Android-World-Eval
     repo: SeerRay-Lab/Android-World-Eval
   license:
     spdx: mit
@@ -467,7 +512,7 @@
     tasks: 116
     models: 1
     trials_per_cell: '4'
-    rows_note: "from the dataset card. HuggingFace reports 0 rows - raw JSON, not parquet. UNVERIFIED."
+    rows_note: from the dataset card. HuggingFace reports 0 rows - raw JSON, not parquet. UNVERIFIED.
   bytes: 2713576738
   verified:
     rows: unverified-unconverted
@@ -477,23 +522,26 @@
     first: null
     last: 2026-06
     basis: reported
-    "note": upstream last modified 2026-06-30; run dates not published.
+    note: upstream last modified 2026-06-30; run dates not published.
   cost:
     usd: null
     basis: null
-    "note": "not published"
+    note: not published
   updated: '2026-06-30'
-  "notes":
-  - "Small but clean: 4 rollouts on each of 116 tasks. Mobile GUI axis."
+  notes:
+  - 'Small but clean: 4 rollouts on each of 116 tasks. Mobile GUI axis.'
   - Single method (Xiaomi-GUI-0), so there is no model axis.
+  announcement:
+    url: null
+    note: no human-written release post found; paper and dataset card only
 - id: harbor-parity
   title: Harbor adapter parity experiments
   kind: agent-trials
   unit: trial
-  multi_trial: "yes"
+  multi_trial: 'yes'
   trajectories: full
   upstream:
-    url: "https://huggingface.co/datasets/harborframework/parity-experiments"
+    url: https://huggingface.co/datasets/harborframework/parity-experiments
     repo: harborframework/parity-experiments
   license:
     spdx: unset
@@ -501,7 +549,7 @@
   gate: unknown
   scale:
     trials_per_cell: often 3
-    rows_note: "HuggingFace returns no file list and no row count for this repo at all."
+    rows_note: HuggingFace returns no file list and no row count for this repo at all.
   bytes: null
   verified:
     rows: unverified-opaque
@@ -511,24 +559,28 @@
     first: null
     last: 2026-04
     basis: reported
-    "note": upstream last modified 2026-04-22.
+    note: upstream last modified 2026-04-22.
   cost:
     usd: null
     basis: null
-    "note": "not published"
+    note: not published
   updated: '2026-04-22'
-  "notes":
-  - "Oracle and parity runs per Harbor adapter - evidence about whether an adapter preserves the original\
-    \ benchmark."
-  - "The HF API returns zero file entries for this repo; gate is genuinely unverified."
+  notes:
+  - Oracle and parity runs per Harbor adapter - evidence about whether an adapter preserves the original
+    benchmark.
+  - The HF API returns zero file entries for this repo; gate is genuinely unverified.
+  announcement:
+    url: https://harbor-index.org/
+    date: '2026-07-07'
+    publisher: Harbor
 - id: agent-launch-pad
   title: Agent Launch Pad trajectories
   kind: agent-trials
   unit: trial
-  multi_trial: "no"
+  multi_trial: 'no'
   trajectories: full
   upstream:
-    url: "https://huggingface.co/datasets/AlexWortega/agent-launch-pad-trajectories"
+    url: https://huggingface.co/datasets/AlexWortega/agent-launch-pad-trajectories
     repo: AlexWortega/agent-launch-pad-trajectories
   license:
     spdx: apache-2.0
@@ -538,8 +590,8 @@
     rows: 1380
     models: 7
     agents: 2
-    rows_note: "terminal-bench-2 (1,204) + scienceagentbench (176), measured. A third `default` config\
-      \ restates them at 1,406."
+    rows_note: terminal-bench-2 (1,204) + scienceagentbench (176), measured. A third `default` config
+      restates them at 1,406.
   bytes: 142956961
   verified:
     rows: datasets-server
@@ -549,22 +601,25 @@
     first: null
     last: 2026-05
     basis: reported
-    "note": upstream last modified 2026-05-12.
+    note: upstream last modified 2026-05-12.
   cost:
     usd: null
     basis: null
-    "note": "not published"
+    note: not published
   updated: '2026-05-12'
-  "notes":
-  - "Terminal-Bench 2 (1,204) + ScienceAgentBench (176). One trajectory per cell, so no variance."
+  notes:
+  - Terminal-Bench 2 (1,204) + ScienceAgentBench (176). One trajectory per cell, so no variance.
+  announcement:
+    url: null
+    note: no human-written release post found; paper and dataset card only
 - id: assert-kth-agentic-evals
   title: ASSERT-KTH agentic eval artifacts
   kind: agent-trials
   unit: trial
-  multi_trial: "yes"
+  multi_trial: 'yes'
   trajectories: full
   upstream:
-    url: "https://huggingface.co/datasets/ASSERT-KTH/agentic-evals-artifacts"
+    url: https://huggingface.co/datasets/ASSERT-KTH/agentic-evals-artifacts
     repo: ASSERT-KTH/agentic-evals-artifacts
   license:
     spdx: cc-by-4.0
@@ -573,7 +628,7 @@
   scale:
     tasks: 500
     trials_per_cell: 10 per setting
-    rows_note: "not stated upstream; HuggingFace reports 0 rows - raw artifacts, not parquet."
+    rows_note: not stated upstream; HuggingFace reports 0 rows - raw artifacts, not parquet.
   bytes: 47948236243
   verified:
     rows: unverified-unconverted
@@ -583,14 +638,18 @@
     first: null
     last: 2026-03
     basis: reported
-    "note": upstream last modified 2026-03-20.
+    note: upstream last modified 2026-03-20.
   cost:
     usd: null
     basis: null
-    "note": "not published"
+    note: not published
   updated: '2026-03-20'
-  "notes":
-  - "SWE-bench Verified at 10 runs per setting - unusually deep k for SWE-bench."
+  notes:
+  - SWE-bench Verified at 10 runs per setting - unusually deep k for SWE-bench.
+  announcement:
+    url: https://arxiv.org/abs/2602.07150
+    date: '2026-02-06'
+    publisher: ASSERT-KTH (On Randomness in Agentic Evals)
 - id: itbench-trajectories
   title: ITBench SRE trajectories
   kind: agent-trials
@@ -598,7 +657,7 @@
   multi_trial: unknown
   trajectories: full
   upstream:
-    url: "https://huggingface.co/datasets/ibm-research/ITBench-Trajectories"
+    url: https://huggingface.co/datasets/ibm-research/ITBench-Trajectories
     repo: ibm-research/ITBench-Trajectories
   license:
     spdx: cc-by-nc-4.0
@@ -606,7 +665,7 @@
   gate: open
   scale:
     rows: 105
-    rows_note: "from the dataset card. HuggingFace reports 0 rows - raw files, not parquet. UNVERIFIED."
+    rows_note: from the dataset card. HuggingFace reports 0 rows - raw files, not parquet. UNVERIFIED.
   bytes: 23173423
   verified:
     rows: unverified-unconverted
@@ -616,12 +675,16 @@
     first: null
     last: 2026-01
     basis: reported
-    "note": upstream last modified 2026-01-19.
+    note: upstream last modified 2026-01-19.
   cost:
     usd: null
     basis: null
-    "note": "not published"
+    note: not published
   updated: '2026-01-19'
-  "notes":
-  - "Site-reliability-engineering task domain, rare in this index."
-  - "Non-commercial licence."
+  notes:
+  - Site-reliability-engineering task domain, rare in this index.
+  - Non-commercial licence.
+  announcement:
+    url: https://research.ibm.com/blog/it-agent-benchmark
+    date: '2025-02-07'
+    publisher: IBM Research

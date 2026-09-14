@@ -2,7 +2,8 @@
 
 **An index of public AI-evaluation run data.**
 
-Re-running agent evals is expensive. HAL spent about **$40,000** on 21,730 rollouts.
+Re-running agent evals is expensive. Harbor's 54-benchmark sweep burned **226 billion
+tokens and over $300,000** of compute. HAL spent about **$40,000** on 21,730 rollouts.
 The Terminal-Bench trajectory dump represents at least **$21,563** of compute,
 32.8 billion input tokens and 10,251 agent-hours — and that spend is already public,
 sitting in a HuggingFace repo, free to download.
@@ -28,6 +29,8 @@ to use, and — where the number exists — what it cost to *produce*.
 - **Trials run** is when the runs actually happened, which is often months before the dataset was uploaded — Harbor's trials ran March–May 2026 but landed on HuggingFace in July. Marked `(m)` measured, `(r)` reported, `(u)` unknown (upstream date shown instead).
 - **Cost to produce** is marked `(m)` measured by us from the data itself, `(r)` reported
   by the authors, or `(e)` estimated. Most entries are blank because nobody published it.
+- **Announced** links the primary source — the post or page the authors wrote. 21 of 27
+  have one; the rest shipped with nothing but a dataset card.
 - **License ⚠** means not redistributable — fetch it from upstream yourself, and do not
   mirror the bytes.
 
@@ -44,7 +47,7 @@ to use, and — where the number exists — what it cost to *produce*.
 | [Long-Horizon Terminal-Bench leaderboard](https://huggingface.co/datasets/IntelligenceLab/LHTB-leaderboard) | 2026-07 (r) | agent-trials | cell | partial | full | 1,196 | 48.1 GB | — | apache-2.0 | open |
 | [AndroidWorld evaluation traces (SeerRay)](https://huggingface.co/datasets/SeerRay-Lab/Android-World-Eval) | 2026-06 (r) | agent-trials | trial | yes | full | 464 | 2.5 GB | — | mit | open |
 | [NVIDIA Open-SWE-Traces](https://huggingface.co/datasets/nvidia/Open-SWE-Traces) | 2026-06 (r) | sft-traces | trajectory | no | full | 511,668 | 39.7 GB | — | cc-by-4.0 | open |
-| [Harbor-Adapter](https://huggingface.co/datasets/kendx/Harbor-Adapter) | 2026-03-25 → 2026-05-26 (m) | agent-trials | trial | yes | full | 178,647 | 316.6 GB | — | other ⚠ | open |
+| [Harbor-Adapter](https://huggingface.co/datasets/kendx/Harbor-Adapter) | 2026-03-25 → 2026-05-26 (m) | agent-trials | trial | yes | full | 178,647 | 316.6 GB | $300,000 (r) | other ⚠ | open |
 | [Agent Launch Pad trajectories](https://huggingface.co/datasets/AlexWortega/agent-launch-pad-trajectories) | 2026-05 (r) | agent-trials | trial | no | full | 1,380 | 136.3 MB | — | apache-2.0 | open |
 | [Harbor adapter parity experiments](https://huggingface.co/datasets/harborframework/parity-experiments) | 2026-04 (r) | agent-trials | trial | yes | full | — | — | — | unset ⚠ | unknown |
 | [Terminal-Bench leaderboard trajectories](https://huggingface.co/datasets/yoonholee/terminalbench-trajectories) | 2025-10-31 → 2026-03-05 (m) | agent-trials | trial | yes | full | 52,104 | 210.8 MB | $21,563 (m) | apache-2.0 | open |
@@ -57,9 +60,9 @@ to use, and — where the number exists — what it cost to *produce*.
 | [TheAgentCompany experiments](https://github.com/TheAgentCompany/experiments) | 2025-06 (r) | agent-trials | cell | no | full | — | — | — | mit | open |
 | [TRAIL failure-attribution traces](https://huggingface.co/datasets/PatronusAI/TRAIL) | 2025-05 (r) | labeled-traces | trajectory | no | full | 148 | 229.9 MB | — | mit | hf-gated |
 | [AgentRewardBench](https://huggingface.co/datasets/McGill-NLP/agent-reward-bench) | 2025-04 (r) | labeled-traces | trajectory | no | full | 1,408 | 35.7 GB | — | unset ⚠ | open |
-| [PaperBench runs](https://github.com/openai/frontier-evals/tree/main/project/paperbench) | 2025-04 (r) | agent-trials | trial | yes | full | — | — | — | mit | open |
+| [PaperBench runs](https://github.com/openai/frontier-evals/tree/main/project/paperbench) | 2025-04 (r) | agent-trials | trial | yes | full | — | — | $9,500 (r) | mit | open |
 | [SWE-smith trajectories](https://huggingface.co/datasets/SWE-bench/SWE-smith-trajectories) | 2025-04 (r) | sft-traces | trajectory | partial | full | 76,002 | 3.9 GB | — | mit | open |
-| [MLE-bench run groups](https://github.com/openai/mle-bench) | 2024-10 (r) | agent-trials | cell | yes | partial | — | — | — | mit | open |
+| [MLE-bench run groups](https://github.com/openai/mle-bench) | 2024-10 (r) | agent-trials | cell | yes | partial | — | — | $5,500 (r) | mit | open |
 | [SWE-bench Verified human annotations](https://openai.com/index/introducing-swe-bench-verified/) | 2024-08 (r) | labeled-traces | score | no | none | 1,699 | 7.6 MB | — | apache-2.0 | open |
 | [LMSYS-Chat-1M](https://huggingface.co/datasets/lmsys/lmsys-chat-1m) | 2023-04 → 2023-08 (r) | llm-scores | score | no | none | 1,000,000 | 1.4 GB | — | other | hf-gated |
 
@@ -73,9 +76,12 @@ Sorted by when the trials were run, most recent first. `(m)` measured from the d
 
 `osworld-verified-trajs` · [dataset](https://modelscope.cn/datasets/xlangai/ubuntu_osworld_verified_trajs) · [home](https://github.com/xlang-ai/OSWorld)
 
+- **announced** [XLang Lab, 2026-08](https://github.com/xlang-ai/OSWorld)
 - **trials run** 2026-08 (r) — dataset updated 2026-08; run dates not published. 480 GB is the card's decimal figure.
 - **unit** `trial` · **multi-trial** `yes` · **trajectories** `full` · **gate** `account`
-- **scale** tasks 369 · models 15 · trials_per_cell multiple, at 15/50/100 step budgets · rows_note not stated upstream; hosted on ModelScope.
+- **scale** tasks 369 · models 15 · trials_per_cell multiple, at 15/50/100 step budgets
+- **row count** not stated upstream; hosted on ModelScope.
+- **verified** rows via `not-on-hf`, size via `not-checked`, checked 2026-09-14
 - **size** 447.0 GB
 - **cost note** not published
 - **license** `mit`
@@ -89,8 +95,11 @@ Sorted by when the trials were run, most recent first. `(m)` measured from the d
 
 `tau-bench-trials` · [dataset](https://github.com/sierra-research/tau2-bench) · repo: `sierra-research/tau2-bench` · [paper](https://arxiv.org/abs/2506.07982)
 
+- **announced** [Sierra Research, 2025-06](https://arxiv.org/abs/2506.07982)
 - **unit** `trial` · **multi-trial** `yes` · **trajectories** `full` · **gate** `open`
-- **scale** tasks 300 · trials_per_cell 4-8 (pass^k is the point of the benchmark) · rows_note trajectories are committed to git, not row-counted.
+- **scale** tasks 300 · trials_per_cell 4-8 (pass^k is the point of the benchmark)
+- **row count** trajectories are committed to git, not row-counted.
+- **verified** rows via `not-on-hf`, size via `not-checked`, checked 2026-09-14
 - **cost note** not published
 - **license** `mit`
 - **upstream updated** 2026-07-15
@@ -102,11 +111,14 @@ Sorted by when the trials were run, most recent first. `(m)` measured from the d
 
 `lhtb-leaderboard` · [dataset](https://huggingface.co/datasets/IntelligenceLab/LHTB-leaderboard) · repo: `IntelligenceLab/LHTB-leaderboard` · [paper](https://arxiv.org/abs/2607.08964)
 
+- **announced** [IntelligenceLab, 2026-07](https://zli12321.github.io/LHTB/)
 - **trials run** 2026-07 (r) — paper arXiv:2607.08964; per-submission dates are inside submissions/.
 - **unit** `cell` · **multi-trial** `partial` · **trajectories** `full` · **gate** `open`
-- **scale** rows 1,196 · benchmarks 1 · tasks 46 · models 26 · rows_note per_task config. The separate leaderboard config holds 26 submission rows.
+- **scale** rows 1,196 · benchmarks 1 · tasks 46 · models 26
+- **row count** per_task config. The separate leaderboard config holds 26 submission rows.
+- **verified** rows via `datasets-server`, size via `hf-api-2026-09-14`, checked 2026-09-14
 - **size** 48.1 GB
-- **cost note** not published. long-horizon tasks with per-model agent_budget_sec, so per-trial spend is high.
+- **cost note** no total published, but the project page reports $2.50-$73 per task and ~9.9M tokens per task across an 18-model suite - the highest per-task cost in this index.
 - **license** `apache-2.0`
 - **upstream updated** 2026-08-20
 - The `per_task` config has NO trial_id: it is already aggregated. Do not compute trial variance from it.
@@ -117,9 +129,12 @@ Sorted by when the trials were run, most recent first. `(m)` measured from the d
 
 `androidworld-seerray` · [dataset](https://huggingface.co/datasets/SeerRay-Lab/Android-World-Eval) · repo: `SeerRay-Lab/Android-World-Eval`
 
+- **announced** — no human-written release post found; paper and dataset card only
 - **trials run** 2026-06 (r) — upstream last modified 2026-06-30; run dates not published.
 - **unit** `trial` · **multi-trial** `yes` · **trajectories** `full` · **gate** `open`
-- **scale** rows 464 · tasks 116 · models 1 · trials_per_cell 4 · rows_note from the dataset card. HuggingFace reports 0 rows - raw JSON, not parquet. UNVERIFIED.
+- **scale** rows 464 · tasks 116 · models 1 · trials_per_cell 4
+- **row count** from the dataset card. HuggingFace reports 0 rows - raw JSON, not parquet. UNVERIFIED.
+- **verified** rows via `unverified-unconverted`, size via `hf-api-2026-09-14`, checked 2026-09-14
 - **size** 2.5 GB
 - **cost note** not published
 - **license** `mit`
@@ -131,11 +146,15 @@ Sorted by when the trials were run, most recent first. `(m)` measured from the d
 
 `harbor-adapter` · [dataset](https://huggingface.co/datasets/kendx/Harbor-Adapter) · repo: `kendx/Harbor-Adapter` · [paper](https://arxiv.org/abs/2609.04298) · [home](https://harbor-index.org/)
 
+- **announced** [Harbor / Harbor-Index, 2026-07-07](https://harbor-index.org/)
 - **trials run** 2026-03-25 → 2026-05-26 (m) — measured from first_step_at across 783,135 extracted trials; 94% ran in April 2026. Dataset was not uploaded until 2026-07-11.
 - **unit** `trial` · **multi-trial** `yes` · **trajectories** `full` · **gate** `open`
-- **scale** rows 178,647 · rows_note manifest config = 178,647 cells; the trajectories config holds 793,698 individual trials. Both measured. · trials 793,698 · benchmarks 60 · tasks 7,819 · agents 6 · models 16 · trials_per_cell 1-5 (capped at the 5 most recent)
+- **scale** rows 178,647 · trials 793,698 · benchmarks 60 · tasks 7,819 · agents 6 · models 16 · trials_per_cell 1-5 (capped at the 5 most recent)
+- **row count** manifest config = 178,647 cells; the trajectories config holds 793,698 individual trials. Both measured.
+- **verified** rows via `datasets-server`, size via `hf-api-2026-09-14`, checked 2026-09-14
 - **size** 316.6 GB
-- **cost note** not published. 794k frontier-agent trials; the compute behind this is the largest single spend in the index.
+- **cost to produce** $300,000 (reported) · input tokens 226,000,000,000
+- **cost note** harbor-index.org states the 54-benchmark sweep 'consumed 226B tokens and over $300K of compute'. Verified at the source 2026-09-14. This is the largest disclosed agent-eval spend anywhere.
 - **license** `other` — **not redistributable**
 - **upstream updated** 2026-07-11
 - The broadest public multi-benchmark agent run dump: 60 benchmarks in one schema.
@@ -148,9 +167,12 @@ Sorted by when the trials were run, most recent first. `(m)` measured from the d
 
 `agent-launch-pad` · [dataset](https://huggingface.co/datasets/AlexWortega/agent-launch-pad-trajectories) · repo: `AlexWortega/agent-launch-pad-trajectories`
 
+- **announced** — no human-written release post found; paper and dataset card only
 - **trials run** 2026-05 (r) — upstream last modified 2026-05-12.
 - **unit** `trial` · **multi-trial** `no` · **trajectories** `full` · **gate** `open`
-- **scale** rows 1,380 · models 7 · agents 2 · rows_note terminal-bench-2 (1,204) + scienceagentbench (176), measured. A third `default` config restates them at 1,406.
+- **scale** rows 1,380 · models 7 · agents 2
+- **row count** terminal-bench-2 (1,204) + scienceagentbench (176), measured. A third `default` config restates them at 1,406.
+- **verified** rows via `datasets-server`, size via `hf-api-2026-09-14`, checked 2026-09-14
 - **size** 136.3 MB
 - **cost note** not published
 - **license** `apache-2.0`
@@ -161,9 +183,12 @@ Sorted by when the trials were run, most recent first. `(m)` measured from the d
 
 `harbor-parity` · [dataset](https://huggingface.co/datasets/harborframework/parity-experiments) · repo: `harborframework/parity-experiments`
 
+- **announced** [Harbor, 2026-07-07](https://harbor-index.org/)
 - **trials run** 2026-04 (r) — upstream last modified 2026-04-22.
 - **unit** `trial` · **multi-trial** `yes` · **trajectories** `full` · **gate** `unknown`
-- **scale** trials_per_cell often 3 · rows_note HuggingFace returns no file list and no row count for this repo at all.
+- **scale** trials_per_cell often 3
+- **row count** HuggingFace returns no file list and no row count for this repo at all.
+- **verified** rows via `unverified-opaque`, size via `hf-api-2026-09-14`, checked 2026-09-14
 - **cost note** not published
 - **license** `unset` — **not redistributable**
 - **upstream updated** 2026-04-22
@@ -174,9 +199,12 @@ Sorted by when the trials were run, most recent first. `(m)` measured from the d
 
 `terminalbench-trajectories` · [dataset](https://huggingface.co/datasets/yoonholee/terminalbench-trajectories) · repo: `yoonholee/terminalbench-trajectories` · [home](https://www.tbench.ai/)
 
+- **announced** — no human-written release post found; paper and dataset card only
 - **trials run** 2025-10-31 → 2026-03-05 (m) — measured from started_at. PARTIAL: only 22,598 of 52,104 rows carry a usable timestamp; 29,506 have an empty string.
 - **unit** `trial` · **multi-trial** `yes` · **trajectories** `full` · **gate** `open`
-- **scale** rows 52,104 · rows_note single config, measured. · benchmarks 1 · tasks 89 · agents 26 · models 49 · trials_per_cell ~5 (TB requires 5 independent runs per submission)
+- **scale** rows 52,104 · benchmarks 1 · tasks 89 · agents 26 · models 49 · trials_per_cell ~5 (TB requires 5 independent runs per submission)
+- **row count** single config, measured.
+- **verified** rows via `datasets-server`, size via `hf-api-2026-09-14`, checked 2026-09-14
 - **size** 210.8 MB
 - **cost to produce** $21,563 (measured) · input tokens 32,753,686,924 · output tokens 632,468,325 · agent-hours 10,251
 - **cost note** summed from the dataset's own cost_cents column, 2026-09-14. LOWER BOUND: 39.2% of trials report zero cost, and 237 rows carry a NEGATIVE cost (min -$15.99).
@@ -192,9 +220,12 @@ Sorted by when the trials were run, most recent first. `(m)` measured from the d
 
 `assert-kth-agentic-evals` · [dataset](https://huggingface.co/datasets/ASSERT-KTH/agentic-evals-artifacts) · repo: `ASSERT-KTH/agentic-evals-artifacts`
 
+- **announced** [ASSERT-KTH (On Randomness in Agentic Evals), 2026-02-06](https://arxiv.org/abs/2602.07150)
 - **trials run** 2026-03 (r) — upstream last modified 2026-03-20.
 - **unit** `trial` · **multi-trial** `yes` · **trajectories** `full` · **gate** `open`
-- **scale** tasks 500 · trials_per_cell 10 per setting · rows_note not stated upstream; HuggingFace reports 0 rows - raw artifacts, not parquet.
+- **scale** tasks 500 · trials_per_cell 10 per setting
+- **row count** not stated upstream; HuggingFace reports 0 rows - raw artifacts, not parquet.
+- **verified** rows via `unverified-unconverted`, size via `hf-api-2026-09-14`, checked 2026-09-14
 - **size** 44.7 GB
 - **cost note** not published
 - **license** `cc-by-4.0`
@@ -205,9 +236,12 @@ Sorted by when the trials were run, most recent first. `(m)` measured from the d
 
 `itbench-trajectories` · [dataset](https://huggingface.co/datasets/ibm-research/ITBench-Trajectories) · repo: `ibm-research/ITBench-Trajectories`
 
+- **announced** [IBM Research, 2025-02-07](https://research.ibm.com/blog/it-agent-benchmark)
 - **trials run** 2026-01 (r) — upstream last modified 2026-01-19.
 - **unit** `trial` · **multi-trial** `unknown` · **trajectories** `full` · **gate** `open`
-- **scale** rows 105 · rows_note from the dataset card. HuggingFace reports 0 rows - raw files, not parquet. UNVERIFIED.
+- **scale** rows 105
+- **row count** from the dataset card. HuggingFace reports 0 rows - raw files, not parquet. UNVERIFIED.
+- **verified** rows via `unverified-unconverted`, size via `hf-api-2026-09-14`, checked 2026-09-14
 - **size** 22.1 MB
 - **cost note** not published
 - **license** `cc-by-nc-4.0`
@@ -219,9 +253,12 @@ Sorted by when the trials were run, most recent first. `(m)` measured from the d
 
 `metr-eval-analysis` · [dataset](https://github.com/METR/eval-analysis-public) · repo: `METR/eval-analysis-public` · [paper](https://arxiv.org/abs/2503.17354)
 
+- **announced** [METR, 2026-07-21](https://metr.org/blog/2026-07-21-expenditure-horizon/)
 - **trials run** 2026-01 (r) — Time Horizon 1.1 published 2026-01-29.
 - **unit** `trial` · **multi-trial** `yes` · **trajectories** `none` · **gate** `open`
-- **scale** tasks 228 · trials_per_cell ~8 per (model, task) · rows_note runs.jsonl is not row-counted upstream.
+- **scale** tasks 228 · trials_per_cell ~8 per (model, task)
+- **row count** runs.jsonl is not row-counted upstream.
+- **verified** rows via `not-on-hf`, size via `not-checked`, checked 2026-09-14
 - **size** 21.4 MB
 - **cost note** not published
 - **license** `mit`
@@ -234,9 +271,12 @@ Sorted by when the trials were run, most recent first. `(m)` measured from the d
 
 `hal-traces` · [dataset](https://huggingface.co/datasets/agent-evals/hal_traces) · repo: `agent-evals/hal_traces` · [paper](https://arxiv.org/abs/2510.11977) · [home](https://hal.cs.princeton.edu/)
 
+- **announced** [Princeton CITP, 2025-10-13](https://hal.cs.princeton.edu/)
 - **trials run** 2025-10 (r) — run dates are not in the public metadata; the flagship 21,730-rollout study was published 2025-10.
 - **unit** `trial` · **multi-trial** `yes` · **trajectories** `encrypted` · **gate** `encrypted`
-- **scale** rows 21,730 · benchmarks 9 · models 9 · trials_per_cell varies by benchmark protocol · rows_note from the HAL paper. HuggingFace cannot count these rows - they are encrypted zips, not parquet.
+- **scale** rows 21,730 · benchmarks 9 · models 9 · trials_per_cell varies by benchmark protocol
+- **row count** from the HAL paper. HuggingFace cannot count these rows - they are encrypted zips, not parquet.
+- **verified** rows via `paper-only`, size via `hf-api-2026-09-14`, checked 2026-09-14
 - **size** 105.3 GB
 - **cost to produce** $40,000 (reported)
 - **cost note** the HAL paper reports ~$40k and 2.5B tokens for the flagship 21,730-rollout study.
@@ -250,9 +290,12 @@ Sorted by when the trials were run, most recent first. `(m)` measured from the d
 
 `malt-transcripts` · [dataset](https://huggingface.co/datasets/metr-evals/malt-transcripts-public) · repo: `metr-evals/malt-transcripts-public` · [home](https://metr.org/blog/2025-10-14-malt-dataset-of-natural-and-prompted-behaviors)
 
+- **announced** [METR, 2025-10-14](https://metr.org/blog/2025-10-14-malt-dataset-of-natural-and-prompted-behaviors)
 - **trials run** 2025-10 (r) — MALT released 2025-10-14; per-run dates not published.
 - **unit** `trial` · **multi-trial** `yes` · **trajectories** `full` · **gate** `hf-gated`
-- **scale** rows 7,179 · tasks 169 · models 19 · trials_per_cell >=5 under the HCAST protocol · rows_note from METR's release post; gated, row counter returns 401. UNVERIFIED.
+- **scale** rows 7,179 · tasks 169 · models 19 · trials_per_cell >=5 under the HCAST protocol
+- **row count** from METR's release post; gated, row counter returns 401. UNVERIFIED.
+- **verified** rows via `unverified-gated`, size via `hf-api-2026-09-14`, checked 2026-09-14
 - **size** 7.9 GB
 - **cost note** not published
 - **license** `mit` — **not redistributable**
@@ -265,9 +308,12 @@ Sorted by when the trials were run, most recent first. `(m)` measured from the d
 
 `toolathlon-trajectories` · [dataset](https://huggingface.co/datasets/hkust-nlp/Toolathlon-Trajectories) · repo: `hkust-nlp/Toolathlon-Trajectories` · [paper](https://arxiv.org/abs/2510.25726)
 
+- **announced** [HKUST NLP, 2025-10](https://arxiv.org/abs/2510.25726)
 - **trials run** 2025-10 (r) — paper arXiv:2510.25726; not recorded per trial in the public dump.
 - **unit** `trial` · **multi-trial** `yes` · **trajectories** `full` · **gate** `hf-gated`
-- **scale** rows 5,000 · tasks 108 · models 17 · trials_per_cell 3 · rows_note from the dataset card; the repo is gated so the row counter returns 401. UNVERIFIED.
+- **scale** rows 5,000 · tasks 108 · models 17 · trials_per_cell 3
+- **row count** from the dataset card; the repo is gated so the row counter returns 401. UNVERIFIED.
+- **verified** rows via `unverified-gated`, size via `hf-api-2026-09-14`, checked 2026-09-14
 - **size** 1.9 GB
 - **cost note** not published
 - **license** `cc-by-4.0`
@@ -280,9 +326,12 @@ Sorted by when the trials were run, most recent first. `(m)` measured from the d
 
 `theagentcompany-experiments` · [dataset](https://github.com/TheAgentCompany/experiments) · repo: `TheAgentCompany/experiments`
 
+- **announced** — no human-written release post found; paper and dataset card only
 - **trials run** 2025-06 (r) — upstream last updated 2025-06.
 - **unit** `cell` · **multi-trial** `no` · **trajectories** `full` · **gate** `open`
-- **scale** tasks 175 · trials_per_cell 1 · rows_note per-model trajectory folders in git, not row-counted.
+- **scale** tasks 175 · trials_per_cell 1
+- **row count** per-model trajectory folders in git, not row-counted.
+- **verified** rows via `not-on-hf`, size via `not-checked`, checked 2026-09-14
 - **cost note** not published
 - **license** `mit`
 - **upstream updated** 2025-06-01
@@ -292,10 +341,14 @@ Sorted by when the trials were run, most recent first. `(m)` measured from the d
 
 `paperbench-runs` · [dataset](https://github.com/openai/frontier-evals/tree/main/project/paperbench) · repo: `openai/frontier-evals`
 
+- **announced** [OpenAI, 2025-04](https://arxiv.org/abs/2504.01848)
 - **trials run** 2025-04 (r) — paper published 2025-04.
 - **unit** `trial` · **multi-trial** `yes` · **trajectories** `full` · **gate** `open`
-- **scale** tasks 20 · trials_per_cell 3 · rows_note run directories in git, not row-counted.
-- **cost note** not published; long-horizon paper-reproduction runs are expensive per trial
+- **scale** tasks 20 · trials_per_cell 3
+- **row count** run directories in git, not row-counted.
+- **verified** rows via `not-on-hf`, size via `not-checked`, checked 2026-09-14
+- **cost to produce** $9,500 (reported)
+- **cost note** approx $400 API per paper x 20 papers plus $1,320 of o3-mini grading, per the PaperBench paper. A six-model three-seed sweep would exceed $150K.
 - **license** `mit`
 - **upstream updated** 2025-04-01
 - Leaderboard reports 3 runs with SEM, so error bars are available.
@@ -304,10 +357,14 @@ Sorted by when the trials were run, most recent first. `(m)` measured from the d
 
 `mle-bench-runs` · [dataset](https://github.com/openai/mle-bench) · repo: `openai/mle-bench` · [paper](https://arxiv.org/abs/2410.07095)
 
+- **announced** [OpenAI, 2024-10](https://arxiv.org/abs/2410.07095)
 - **trials run** 2024-10 (r) — paper arXiv:2410.07095.
 - **unit** `cell` · **multi-trial** `yes` · **trajectories** `partial` · **gate** `open`
-- **scale** tasks 75 · trials_per_cell multiple seeds; the paper reports pass@8 · rows_note grading reports per run group, not row-counted.
-- **cost note** not published
+- **scale** tasks 75 · trials_per_cell multiple seeds; the paper reports pass@8
+- **row count** grading reports per run group, not row-counted.
+- **verified** rows via `not-on-hf`, size via `not-checked`, checked 2026-09-14
+- **cost to produce** $5,500 (reported)
+- **cost note** approx $5,500 for a single seed, plus 1,800 GPU-hours and 127.5M input / 15M output tokens for o1-preview, per the paper and the EvalEval cost survey.
 - **license** `mit`
 - **upstream updated** 2024-10-01
 - 75 Kaggle competitions x AIDE / MLAB / OpenDevin scaffolds.
@@ -319,9 +376,12 @@ Sorted by when the trials were run, most recent first. `(m)` measured from the d
 
 `epoch-benchmarking-hub` · [dataset](https://epoch.ai/benchmarks) · [home](https://epoch.ai/benchmarks/use-this-data)
 
+- **announced** [Epoch AI, 2025-10-10](https://epoch.ai/benchmarks/about)
 - **trials run** 2023 → 2026-09 (r) — the hub is continuously updated; CSV regenerated 2026-09-14.
 - **unit** `cell` · **multi-trial** `yes` · **trajectories** `none` · **gate** `open`
-- **scale** rows 1,103 · benchmarks 37 · models 126 · trials_per_cell 16 on GPQA Diamond and Mock AIME, 8 on MATH L5 · rows_note score rows behind the ECI fit, per Epoch's own page.
+- **scale** rows 1,103 · benchmarks 37 · models 126 · trials_per_cell 16 on GPQA Diamond and Mock AIME, 8 on MATH L5
+- **row count** score rows behind the ECI fit, per Epoch's own page.
+- **verified** rows via `not-on-hf`, size via `not-checked`, checked 2026-09-14
 - **cost note** not published as a total, though Epoch reports per-benchmark inference costs in places
 - **license** `cc-by-4.0`
 - **upstream updated** 2026-09-14
@@ -334,9 +394,12 @@ Sorted by when the trials were run, most recent first. `(m)` measured from the d
 
 `swebench-experiments` · [dataset](https://github.com/SWE-bench/experiments) · repo: `SWE-bench/experiments`
 
+- **announced** [SWE-bench team](https://www.swebench.com/)
 - **trials run** 2023-10 → 2026-09 (r) — submissions accumulate continuously; each folder carries its own metadata.yaml date.
 - **unit** `cell` · **multi-trial** `no` · **trajectories** `partial` · **gate** `open`
-- **scale** tasks 2,294 · trials_per_cell 1 (pass@1 required; pass@k disallowed for the headline number) · rows_note one folder per submission; not row-counted.
+- **scale** tasks 2,294 · trials_per_cell 1 (pass@1 required; pass@k disallowed for the headline number)
+- **row count** one folder per submission; not row-counted.
+- **verified** rows via `not-on-hf`, size via `not-checked`, checked 2026-09-14
 - **cost note** not published
 - **license** `mit`
 - **upstream updated** 2026-09-01
@@ -348,9 +411,12 @@ Sorted by when the trials were run, most recent first. `(m)` measured from the d
 
 `lmsys-chat-1m` · [dataset](https://huggingface.co/datasets/lmsys/lmsys-chat-1m) · repo: `lmsys/lmsys-chat-1m`
 
+- **announced** — no human-written release post found; paper and dataset card only
 - **trials run** 2023-04 → 2023-08 (r) — in-the-wild traffic collected Apr-Aug 2023, per the dataset card.
 - **unit** `score` · **multi-trial** `no` · **trajectories** `none` · **gate** `hf-gated`
-- **scale** rows 1,000,000 · models 25 · rows_note the name is the count; gated, row counter returns 401. UNVERIFIED.
+- **scale** rows 1,000,000 · models 25
+- **row count** the name is the count; gated, row counter returns 401. UNVERIFIED.
+- **verified** rows via `unverified-gated`, size via `hf-api-2026-09-14`, checked 2026-09-14
 - **size** 1.4 GB
 - **cost note** in-the-wild traffic, not commissioned runs
 - **license** `other`
@@ -363,9 +429,12 @@ Sorted by when the trials were run, most recent first. `(m)` measured from the d
 
 `trail-traces` · [dataset](https://huggingface.co/datasets/PatronusAI/TRAIL) · repo: `PatronusAI/TRAIL` · [paper](https://arxiv.org/abs/2505.08638)
 
+- **announced** [Patronus AI, 2025-05](https://arxiv.org/abs/2505.08638)
 - **trials run** 2025-05 (r) — paper arXiv:2505.08638.
 - **unit** `trajectory` · **multi-trial** `no` · **trajectories** `full` · **gate** `hf-gated`
-- **scale** rows 148 · benchmarks 2 · rows_note from the paper; gated, row counter returns 401. UNVERIFIED.
+- **scale** rows 148 · benchmarks 2
+- **row count** from the paper; gated, row counter returns 401. UNVERIFIED.
+- **verified** rows via `unverified-gated`, size via `hf-api-2026-09-14`, checked 2026-09-14
 - **size** 229.9 MB
 - **cost note** not published
 - **license** `mit`
@@ -378,9 +447,12 @@ Sorted by when the trials were run, most recent first. `(m)` measured from the d
 
 `agent-reward-bench` · [dataset](https://huggingface.co/datasets/McGill-NLP/agent-reward-bench) · repo: `McGill-NLP/agent-reward-bench` · [paper](https://arxiv.org/abs/2504.08942)
 
+- **announced** [McGill NLP, 2025-04](https://agent-reward-bench.github.io/)
 - **trials run** 2025-04 (r) — paper arXiv:2504.08942.
 - **unit** `trajectory` · **multi-trial** `no` · **trajectories** `full` · **gate** `open`
-- **scale** rows 1,408 · benchmarks 5 · models 4 · rows_note measured from the annotations config. The paper headline is 1,302 expert-reviewed trajectories; the 106-row gap is unexplained - check before citing either.
+- **scale** rows 1,408 · benchmarks 5 · models 4
+- **row count** measured from the annotations config. The paper headline is 1,302 expert-reviewed trajectories; the 106-row gap is unexplained - check before citing either.
+- **verified** rows via `datasets-server`, size via `hf-api-2026-09-14`, checked 2026-09-14
 - **size** 35.7 GB
 - **cost note** not published
 - **license** `unset` — **not redistributable**
@@ -393,9 +465,12 @@ Sorted by when the trials were run, most recent first. `(m)` measured from the d
 
 `swebench-verified-annotations` · [dataset](https://openai.com/index/introducing-swe-bench-verified/) · [home](https://huggingface.co/datasets/SWE-bench/SWE-bench_Verified)
 
+- **announced** [OpenAI, 2024-08-13](https://openai.com/index/introducing-swe-bench-verified/)
 - **trials run** 2024-08 (r) — human annotation campaign, published 2024-08-13. Not model runs.
 - **unit** `score` · **multi-trial** `no` · **trajectories** `none` · **gate** `open`
-- **scale** rows 1,699 · tasks 1,699 · trials_per_cell 3 human raters per task · rows_note candidate tasks, 3 human raters each, per OpenAI's post.
+- **scale** rows 1,699 · tasks 1,699 · trials_per_cell 3 human raters per task
+- **row count** candidate tasks, 3 human raters each, per OpenAI's post.
+- **verified** rows via `not-on-hf`, size via `not-checked`, checked 2026-09-14
 - **size** 7.6 MB
 - **cost note** human annotation cost, not compute; not published
 - **license** `apache-2.0`
@@ -409,9 +484,12 @@ Sorted by when the trials were run, most recent first. `(m)` measured from the d
 
 `nvidia-open-swe-traces` · [dataset](https://huggingface.co/datasets/nvidia/Open-SWE-Traces) · repo: `nvidia/Open-SWE-Traces`
 
+- **announced** [NVIDIA, 2026-06-14](https://arxiv.org/abs/2606.16038)
 - **trials run** 2026-06 (r) — upstream last modified 2026-06; SFT generation, not an eval campaign.
 - **unit** `trajectory` · **multi-trial** `no` · **trajectories** `full` · **gate** `open`
-- **scale** rows 511,668 · rows_note CORRECTED from a 200k estimate. Measured 511,668 across v1.0 (151,219), v1.1 (253,182) and v1.2 (107,267).
+- **scale** rows 511,668
+- **row count** CORRECTED from a 200k estimate. Measured 511,668 across v1.0 (151,219), v1.1 (253,182) and v1.2 (107,267).
+- **verified** rows via `datasets-server`, size via `hf-api-2026-09-14`, checked 2026-09-14
 - **size** 39.7 GB
 - **cost note** not published; 200k+ agent rollouts is a very large spend
 - **license** `cc-by-4.0`
@@ -423,11 +501,14 @@ Sorted by when the trials were run, most recent first. `(m)` measured from the d
 
 `swe-smith-trajectories` · [dataset](https://huggingface.co/datasets/SWE-bench/SWE-smith-trajectories) · repo: `SWE-bench/SWE-smith-trajectories` · [paper](https://arxiv.org/abs/2504.21798)
 
+- **announced** [Princeton RSE, 2025-12-17](https://blog.rse.princeton.edu/2025/12/neurips-spotlight-swe-smith-scaling-data-for-software-engineering-agents/)
 - **trials run** 2025-04 (r) — paper arXiv:2504.21798; SFT generation.
 - **unit** `trajectory` · **multi-trial** `partial` · **trajectories** `full` · **gate** `open`
-- **scale** rows 76,002 · trials_per_cell up to 3 per task instance, after filtering · rows_note single config, measured.
+- **scale** rows 76,002 · trials_per_cell up to 3 per task instance, after filtering
+- **row count** single config, measured.
+- **verified** rows via `datasets-server`, size via `hf-api-2026-09-14`, checked 2026-09-14
 - **size** 3.9 GB
-- **cost note** not published
+- **cost note** no total published. The paper caps each expert trajectory at 75 steps and $2, so the 76,002-row dump has an upper bound near $152K.
 - **license** `mit`
 - **upstream updated** 2025-04-01
 - SFT corpus generated with SWE-agent + Claude 3.7. Repeats exist but are success-filtered.
@@ -438,9 +519,12 @@ Sorted by when the trials were run, most recent first. `(m)` measured from the d
 
 `eee-datastore` · [dataset](https://huggingface.co/datasets/evaleval/EEE_datastore) · repo: `evaleval/EEE_datastore`
 
+- **announced** [EvalEval / HuggingFace, 2026-04-29](https://huggingface.co/blog/evaleval/eval-costs-bottleneck)
 - **trials run** 2026-09 (r) — continuously updated aggregation, not a run campaign.
 - **unit** `collection` · **multi-trial** `no` · **trajectories** `none` · **gate** `open`
-- **scale** rows 7,300 · rows_note CORRECTED. Measured 7,300 score rows across 32 benchmark configs. The widely-quoted 107 is the number of eval COLLECTIONS, not rows.
+- **scale** rows 7,300
+- **row count** CORRECTED. Measured 7,300 score rows across 32 benchmark configs. The widely-quoted 107 is the number of eval COLLECTIONS, not rows.
+- **verified** rows via `datasets-server`, size via `hf-api-2026-09-14`, checked 2026-09-14
 - **size** 3.1 GB
 - **cost note** aggregation of published scores; no compute of its own
 - **license** `mit`
@@ -453,9 +537,12 @@ Sorted by when the trials were run, most recent first. `(m)` measured from the d
 
 `openeval-commons` · [dataset](https://huggingface.co/datasets/Open-Eval-Commons/OpenEval) · repo: `Open-Eval-Commons/OpenEval`
 
+- **announced** — no human-written release post found; paper and dataset card only
 - **trials run** 2026-09 (r) — aggregation, not a run campaign.
 - **unit** `score` · **multi-trial** `no` · **trajectories** `none` · **gate** `open`
-- **scale** rows 21,504,018 · rows_note measured: 21,504,018 response rows over 318,092 items and 28 benchmarks.
+- **scale** rows 21,504,018
+- **row count** measured: 21,504,018 response rows over 318,092 items and 28 benchmarks.
+- **verified** rows via `datasets-server`, size via `hf-api-2026-09-14`, checked 2026-09-14
 - **size** 8.6 GB
 - **cost note** aggregation; no compute of its own
 - **license** `cc-by-nc-4.0`
@@ -480,12 +567,17 @@ Sorted by when the trials were run, most recent first. `(m)` measured from the d
 - **4** need a HuggingFace token plus accepted terms (11.4 GB); **2** need something else — a ModelScope account or HAL's own decryption path (552.3 GB).
 - **9** live outside HuggingFace entirely — on GitHub, ModelScope or a project site. These are the least machine-readable entries in the index: most have no row count and no size, because neither is cheaply checkable.
 
+- **21 of 27** have a primary-source announcement — a blog post, project page or paper the authors wrote. The other 6 were published with nothing but a dataset card.
+
 **What it cost to make**
 
-- **$61,563** across the 2 of 27 entries that disclose a cost.
+- **$376,563** across the 5 of 27 entries that disclose a cost.
+  - Harbor-Adapter: **$300,000** (reported) — 226.0B input tokens
   - HAL (Holistic Agent Leaderboard) traces: **$40,000** (reported)
   - Terminal-Bench leaderboard trajectories: **$21,563** (measured) — 32.8B input tokens, 10,251 agent-hours
-- The other **25** published nothing. Harbor-Adapter alone is 793,698 frontier-agent trials with no cost figure attached; it is comfortably the largest undisclosed spend in the index.
+  - PaperBench runs: **$9,500** (reported)
+  - MLE-bench run groups: **$5,500** (reported)
+- The other **22** published nothing. The largest agent-run dataset that still publishes no cost is OSWorld-Verified Ubuntu trajectories at 447.0 GB. Cost disclosure is the single rarest field in this index.
 
 **What is actually usable for variance work**
 
@@ -496,7 +588,7 @@ Sorted by when the trials were run, most recent first. `(m)` measured from the d
 
 - **27 datasets indexed** — 17 agent-trials, 3 labeled-traces, 3 llm-scores, 2 meta-index, 2 sft-traces
 - **1.0 TB** of data across entries that report a size
-- **$61,563** of known compute spend, from the 2 of 27 entries where the cost is published or measurable
+- **$376,563** of known compute spend, from the 5 of 27 entries where the cost is published or measurable
 - **14** entries have repeated trials per cell; 13 do not or do not say
 
 ## Scope
@@ -518,8 +610,10 @@ request-only corpora, and leaderboards that publish a number with no underlying 
 
 ## Notable gaps
 
-- **Cost is almost never published.** Two of 27 entries report it. HAL is the only
-  project that treated spend as a headline result.
+- **Cost is almost never published.** Five of 27 entries report it, totalling $376,563.
+  Harbor (>$300K) and HAL (~$40K) are the only projects that treated campaign spend as a
+  headline result. The [EvalEval cost survey](https://huggingface.co/blog/evaleval/eval-costs-bottleneck)
+  (April 2026) is the best single collection of what evals actually cost.
 - **Balanced factorials are rare.** Toolathlon (17 models × 3 runs × 108 tasks) is one
   of the only clean designs. Most coverage is ragged.
 - **Nobody publishes negative results.** Failed runs get filtered out of SFT dumps,
