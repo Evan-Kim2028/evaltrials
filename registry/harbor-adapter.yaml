@@ -1,0 +1,57 @@
+id: harbor-adapter
+title: Harbor-Adapter multi-benchmark agent trials
+status: implemented
+unit: trial                      # one row = one independent run of (task, agent, model)
+upstream:
+  kind: hf_dataset
+  repo: kendx/Harbor-Adapter
+  revision: fa3538157a4b372b8ed36723ba0aa6dc30f6e22e
+  paper: https://arxiv.org/abs/2609.04298
+  homepage: https://harbor-index.org/
+license:
+  spdx: other                    # dataset card says `other`, ships no license text
+  redistributable: false         # do not mirror bytes; fetch from upstream
+  attribution: "Harbor-Adapter (kendx), arXiv:2609.04298"
+gate: open
+verified_by: official-harness    # trials produced by the Harbor framework itself
+scale:
+  cells: 178647                  # (benchmark, task, agent, model)
+  benchmarks: 60
+  agents: 6
+  models: 16
+trials_per_cell: {min: 1, max: 5, note: "trial_ids holds up to 5 most recent"}
+assets:
+  - name: manifest
+    default: true
+    path: harbor_adapters.manifest.parquet
+    bytes: 15952527
+    sha256: b669eb58c7685f7f8bd818c810435419e77b9dfe5ff3bec5d61c1d78fadf8bc2
+    gives: [benchmark, task_name, agent, model, trial_ids]
+    note: "cell-level only. no reward column. cheap: pull this first."
+  - name: trajectories
+    path: data/harbor_adapters/<benchmark>/NNNNN.parquet
+    bytes: 340000293953           # 340 GB across 495 files
+    gives: [result.json, agent/trajectory.json, verifier/reward.txt]
+    note: "PER-SHARD fetch only. never pull the whole config."
+fields:
+  benchmark:        {type: string, coverage: 1.0}
+  task_name:        {type: string, coverage: 1.0, semantics: "adapter-local id; for terminal-bench this is the bare TB task slug"}
+  agent:            {type: string, coverage: 1.0, values: [claude-code, codex, gemini-cli, openhands, qwen-coder, terminus-2]}
+  model:            {type: string, coverage: 1.0, semantics: "dated API id, e.g. claude-haiku-4-5-20251001"}
+  reward:           {type: float,  coverage: 1.0, semantics: "from verifier/reward.txt; benchmark-specific scale"}
+  n_steps:          {type: int,    coverage: 1.0, tier: 2, derived: true}
+  n_tool_calls:     {type: int,    coverage: 1.0, tier: 2, derived: true}
+  mentions_answer_file: {type: int, coverage: 1.0, tier: 2, derived: true, semantics: "reward-hack probe"}
+  git_history_probe:    {type: int, coverage: 1.0, tier: 2, derived: true, semantics: "reward-hack probe"}
+  network_fetch:        {type: int, coverage: 1.0, tier: 2, derived: true, semantics: "contamination probe"}
+  input_tokens:     {type: int, coverage: 0.0, tier: 2, note: "not published"}
+  cost:             {type: float, coverage: 0.0, tier: 2, note: "not published"}
+joins_with:
+  - source: terminalbench-yoonholee
+    on: [task_name]
+    where: "benchmark = 'terminal-bench'"
+    shared_tasks: 89
+    note: "identical task_name namespace; verified 2026-09-14"
+caveats:
+  - "trial_ids is capped at the 5 most recent, so trials_per_cell is censored, not sampled."
+  - "reward scale differs per benchmark; do not average reward across benchmarks."
