@@ -45,6 +45,31 @@ the data for two entries and taken from papers or upstream metadata for the rest
 `(m)`/`(r)`/`(u)` markers say which. Row counts largely come from dataset cards and
 papers and are the least verified numbers here.
 
+## Maintaining
+
+`scripts/verify_upstream.py` re-reads every HuggingFace entry's size and row count and
+reports where the registry has drifted. It reads metadata only — it never downloads a
+dataset.
+
+```sh
+python scripts/verify_upstream.py     # 0 drifted = the registry matches upstream
+```
+
+Four entries are gated. To verify those you need a HuggingFace read token with
+"read gated repos" enabled, supplied through the environment or the standard location:
+
+```sh
+export HF_TOKEN=...          # or
+huggingface-cli login        # writes ~/.cache/huggingface/token, chmod 600
+```
+
+**No token is ever stored in this repository.** `.env` is gitignored, and CI reads an
+encrypted GitHub Actions secret. A token committed to a public repo is a revoked token —
+HuggingFace scans public GitHub and disables anything it finds.
+
+Note that a token alone is not enough for a gated dataset: you must also accept each
+dataset's terms on its HuggingFace page as that user.
+
 ## License
 
 MIT for the index itself. Every dataset listed keeps its own license, recorded per

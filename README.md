@@ -282,7 +282,7 @@ Sorted by when the trials were run, most recent first. `(m)` measured from the d
 - **unit** `trial` · **multi-trial** `yes` · **trajectories** `full` · **gate** `hf-gated`
 - **scale** rows 7,179 · tasks 169 · models 19 · trials_per_cell >=5 under the HCAST protocol · trials 7,179
 - **row count** from METR's release post; gated, row counter returns 401. UNVERIFIED.
-- **verified** rows via `unverified-gated`, size via `hf-api-2026-09-14`, checked 2026-09-14
+- **verified** rows via `unverified-gated`, size via `hf-api-token-2026-09-14`, checked 2026-09-14
 - **size** 7.9 GB
 - **cost note** not published
 - **license** `mit` — **not redistributable**
@@ -300,7 +300,7 @@ Sorted by when the trials were run, most recent first. `(m)` measured from the d
 - **unit** `trial` · **multi-trial** `yes` · **trajectories** `full` · **gate** `hf-gated`
 - **scale** rows 5,000 · tasks 108 · models 17 · trials_per_cell 3 · trials 5,000
 - **row count** from the dataset card; the repo is gated so the row counter returns 401. UNVERIFIED.
-- **verified** rows via `unverified-gated`, size via `hf-api-2026-09-14`, checked 2026-09-14
+- **verified** rows via `unverified-gated`, size via `hf-api-token-2026-09-14`, checked 2026-09-14
 - **size** 1.9 GB
 - **cost note** not published
 - **license** `cc-by-4.0`
@@ -403,7 +403,7 @@ Sorted by when the trials were run, most recent first. `(m)` measured from the d
 - **unit** `score` · **multi-trial** `no` · **trajectories** `none` · **gate** `hf-gated`
 - **scale** rows 1,000,000 · models 25
 - **row count** the name is the count; gated, row counter returns 401. UNVERIFIED.
-- **verified** rows via `unverified-gated`, size via `hf-api-2026-09-14`, checked 2026-09-14
+- **verified** rows via `unverified-gated`, size via `hf-api-token-2026-09-14`, checked 2026-09-14
 - **size** 1.4 GB
 - **cost note** in-the-wild traffic, not commissioned runs
 - **license** `other`
@@ -421,7 +421,7 @@ Sorted by when the trials were run, most recent first. `(m)` measured from the d
 - **unit** `trajectory` · **multi-trial** `no` · **trajectories** `full` · **gate** `hf-gated`
 - **scale** rows 148 · benchmarks 2
 - **row count** from the paper; gated, row counter returns 401. UNVERIFIED.
-- **verified** rows via `unverified-gated`, size via `hf-api-2026-09-14`, checked 2026-09-14
+- **verified** rows via `unverified-gated`, size via `hf-api-token-2026-09-14`, checked 2026-09-14
 - **size** 229.9 MB
 - **cost note** not published
 - **license** `mit`
@@ -626,6 +626,31 @@ have no size recorded because it was not cheaply checkable. Run dates are measur
 the data for two entries and taken from papers or upstream metadata for the rest — the
 `(m)`/`(r)`/`(u)` markers say which. Row counts largely come from dataset cards and
 papers and are the least verified numbers here.
+
+## Maintaining
+
+`scripts/verify_upstream.py` re-reads every HuggingFace entry's size and row count and
+reports where the registry has drifted. It reads metadata only — it never downloads a
+dataset.
+
+```sh
+python scripts/verify_upstream.py     # 0 drifted = the registry matches upstream
+```
+
+Four entries are gated. To verify those you need a HuggingFace read token with
+"read gated repos" enabled, supplied through the environment or the standard location:
+
+```sh
+export HF_TOKEN=...          # or
+huggingface-cli login        # writes ~/.cache/huggingface/token, chmod 600
+```
+
+**No token is ever stored in this repository.** `.env` is gitignored, and CI reads an
+encrypted GitHub Actions secret. A token committed to a public repo is a revoked token —
+HuggingFace scans public GitHub and disables anything it finds.
+
+Note that a token alone is not enough for a gated dataset: you must also accept each
+dataset's terms on its HuggingFace page as that user.
 
 ## License
 

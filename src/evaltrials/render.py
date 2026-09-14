@@ -118,7 +118,8 @@ def _detail(e) -> list[str]:
     if e.scale:
         out.append("- **scale** " + " · ".join(
             f"{k} {_num(v) if isinstance(v, int) else v}"
-            for k, v in e.scale.items() if v is not None and k != "rows_note"))
+            for k, v in e.scale.items()
+            if v is not None and k not in ("rows_note", "rows_config", "rows_configs")))
         if e.scale.get("rows_note"):
             out.append(f"- **row count** {e.scale['rows_note']}")
     v = e.raw.get("verified") or {}

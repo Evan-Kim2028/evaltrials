@@ -192,8 +192,9 @@
   bytes: 241077282
   verified:
     rows: unverified-gated
-    bytes: hf-api-2026-09-14
+    bytes: hf-api-token-2026-09-14
     checked: '2026-09-14'
+    note: size confirmed with a gated-read token; the row counter still refuses, so rows stay UNVERIFIED
   runs:
     first: null
     last: 2025-05
@@ -269,6 +270,7 @@
   scale:
     rows: 21504018
     rows_note: 'measured: 21,504,018 response rows over 318,092 items and 28 benchmarks.'
+    rows_config: response
   bytes: 9271591381
   verified:
     rows: datasets-server
@@ -427,8 +429,9 @@
   bytes: 1488861436
   verified:
     rows: unverified-gated
-    bytes: hf-api-2026-09-14
+    bytes: hf-api-token-2026-09-14
     checked: '2026-09-14'
+    note: size confirmed with a gated-read token; the row counter still refuses, so rows stay UNVERIFIED
   runs:
     first: 2023-04
     last: 2023-08
