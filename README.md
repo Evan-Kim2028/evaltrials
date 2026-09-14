@@ -1,149 +1,482 @@
 # evaltrials
 
-**An agent-first catalog and fetcher for public AI-evaluation trial data.**
+**An index of public AI-evaluation run data.**
 
-Re-running agent evals is expensive — HAL spent ~$40k on 21,730 rollouts. A lot of
-that work is already public, but it is scattered across HuggingFace repos, GitHub
-submission trees and leaderboard scrapes, each with a different shape, a different
-license, and a different idea of what a "row" is.
+Re-running agent evals is expensive. HAL spent about **$40,000** on 21,730 rollouts.
+The Terminal-Bench trajectory dump represents at least **$21,563** of compute,
+32.8 billion input tokens and 10,251 agent-hours — and that spend is already public,
+sitting in a HuggingFace repo, free to download.
 
-`evaltrials` does not rehost any of it. It ships a **registry** describing each
-source, **fetchers** that pull from upstream and verify, and a **normalizer** that
-maps everything onto one row so you can join across sources.
+A lot of work like that exists. It is scattered across HuggingFace, GitHub
+submission trees, ModelScope and leaderboard scrapes, under a dozen different
+licenses, and there is no single place that says what is out there or what it holds.
+This repo is that list.
 
-Built for agents to drive. Every verb emits JSON when stdout is not a TTY, and
-every call tells you what it will cost *before* it spends it.
+**This is an index, not a pipeline.** Nothing here downloads, converts, mirrors or
+rehosts anything. Each entry records what a dataset contains, how big it is, how many
+rows, whether it has repeated trials, whether trajectories are included, what it costs
+to use, and — where the number exists — what it cost to *produce*.
 
-## The six verbs
+## How to read it
 
-```sh
-evaltrials catalog                        # every known source, one compact line each
-evaltrials describe harbor-adapter        # full schema card: fields, coverage, caveats
-evaltrials plan harbor-adapter            # bytes, seconds, license, blockers. zero I/O
-evaltrials fetch  harbor-adapter          # download + normalize into ~/.cache/evaltrials
-evaltrials sample harbor-adapter -n 5     # n rows + MEASURED per-field coverage
-evaltrials query  "SELECT ... FROM trials"  # DuckDB over the cache
-```
+- **Unit** is the most important column. `trial` means one row is one independent run,
+  so you can compute pass-rate variance. `cell` means the source already aggregated.
+  `score` and `trajectory` are neither. Computing variance from `cell` rows gives you
+  a number that does not exist.
+- **Multi-trial** is what most people actually come here for. Only a handful of public
+  datasets run the same task more than once per model.
+- **Cost to produce** is marked `(m)` measured by us from the data itself, `(r)` reported
+  by the authors, or `(e)` estimated. Most entries are blank because nobody published it.
+- **License ⚠** means not redistributable — fetch it from upstream yourself, and do not
+  mirror the bytes.
 
-### `plan` is the point
+## Index
 
-An agent that naively clones `IntelligenceLab/LHTB-leaderboard` pulls **48.1 GB**
-across 66,805 files; a single asciinema recording in there is 9.8 GB. Harbor-Adapter's
-`trajectories` config is **316.6 GB**. `plan` refuses to make that the default and
-says so out loud:
+| Dataset | Kind | Unit | Multi-trial | Trajectories | Rows | Size | Cost to produce | License | Gate |
+| --- | --- | --- | --- | --- | ---: | ---: | ---: | --- | --- |
+| [Harbor-Adapter](https://huggingface.co/datasets/kendx/Harbor-Adapter) | agent-trials | trial | yes | full | 178,647 | 316.6 GB | — | other ⚠ | open |
+| [Terminal-Bench leaderboard trajectories](https://huggingface.co/datasets/yoonholee/terminalbench-trajectories) | agent-trials | trial | yes | full | 52,104 | 210.8 MB | $21,563 (m) | apache-2.0 | open |
+| [HAL (Holistic Agent Leaderboard) traces](https://huggingface.co/datasets/agent-evals/hal_traces) | agent-trials | trial | yes | encrypted | 21,730 | 105.2 GB | $40,000 (r) | unset ⚠ | encrypted |
+| [METR MALT public transcripts](https://huggingface.co/datasets/metr-evals/malt-transcripts-public) | agent-trials | trial | yes | full | 7,179 | 7.9 GB | — | mit ⚠ | hf-gated |
+| [Toolathlon trajectories](https://huggingface.co/datasets/hkust-nlp/Toolathlon-Trajectories) | agent-trials | trial | yes | full | 5,000 | 1.9 GB | — | cc-by-4.0 | hf-gated |
+| [Agent Launch Pad trajectories](https://huggingface.co/datasets/AlexWortega/agent-launch-pad-trajectories) | agent-trials | trial | no | full | 1,380 | — | — | apache-2.0 | open |
+| [Long-Horizon Terminal-Bench leaderboard](https://huggingface.co/datasets/IntelligenceLab/LHTB-leaderboard) | agent-trials | cell | partial | full | 1,196 | 48.1 GB | — | apache-2.0 | open |
+| [AndroidWorld evaluation traces (SeerRay)](https://huggingface.co/datasets/SeerRay-Lab/Android-World-Eval) | agent-trials | trial | yes | full | 464 | — | — | mit | open |
+| [ITBench SRE trajectories](https://huggingface.co/datasets/ibm-research/ITBench-Trajectories) | agent-trials | trial | unknown | full | 105 | — | — | cc-by-nc-4.0 | open |
+| [ASSERT-KTH agentic eval artifacts](https://huggingface.co/datasets/ASSERT-KTH/agentic-evals-artifacts) | agent-trials | trial | yes | full | — | — | — | cc-by-4.0 | open |
+| [Harbor adapter parity experiments](https://huggingface.co/datasets/harborframework/parity-experiments) | agent-trials | trial | yes | full | — | — | — | unset ⚠ | unknown |
+| [METR eval-analysis-public (time-horizon runs)](https://github.com/METR/eval-analysis-public) | agent-trials | trial | yes | none | — | 21.4 MB | — | mit | open |
+| [MLE-bench run groups](https://github.com/openai/mle-bench) | agent-trials | cell | yes | partial | — | — | — | mit | open |
+| [OSWorld-Verified Ubuntu trajectories](https://modelscope.cn/datasets/xlangai/ubuntu_osworld_verified_trajs) | agent-trials | trial | yes | full | — | 447.0 GB | — | mit | account |
+| [PaperBench runs](https://github.com/openai/frontier-evals/tree/main/project/paperbench) | agent-trials | trial | yes | full | — | — | — | mit | open |
+| [tau-bench / tau2-bench simulations](https://github.com/sierra-research/tau2-bench) | agent-trials | trial | yes | full | — | — | — | mit | open |
+| [TheAgentCompany experiments](https://github.com/TheAgentCompany/experiments) | agent-trials | cell | no | full | — | — | — | mit | open |
+| [LMSYS-Chat-1M](https://huggingface.co/datasets/lmsys/lmsys-chat-1m) | llm-scores | score | no | none | 1,000,000 | — | — | other | hf-gated |
+| [Epoch AI Benchmarking Hub](https://epoch.ai/benchmarks) | llm-scores | cell | yes | none | 1,103 | — | — | cc-by-4.0 | open |
+| [SWE-bench official submissions](https://github.com/SWE-bench/experiments) | llm-scores | cell | no | partial | — | — | — | mit | open |
+| [SWE-bench Verified human annotations](https://openai.com/index/introducing-swe-bench-verified/) | labeled-traces | score | no | none | 1,699 | 7.6 MB | — | apache-2.0 | open |
+| [AgentRewardBench](https://huggingface.co/datasets/McGill-NLP/agent-reward-bench) | labeled-traces | trajectory | no | full | 1,302 | — | — | unset ⚠ | open |
+| [TRAIL failure-attribution traces](https://huggingface.co/datasets/PatronusAI/TRAIL) | labeled-traces | trajectory | no | full | 148 | — | — | mit | hf-gated |
+| [NVIDIA Open-SWE-Traces](https://huggingface.co/datasets/nvidia/Open-SWE-Traces) | sft-traces | trajectory | no | full | 200,000 | — | — | cc-by-4.0 | open |
+| [SWE-smith trajectories](https://huggingface.co/datasets/SWE-bench/SWE-smith-trajectories) | sft-traces | trajectory | partial | full | 76,002 | 3.9 GB | — | mit | open |
+| [Every Eval Ever (EvalEval datastore)](https://huggingface.co/datasets/evaleval/EEE_datastore) | meta-index | collection | no | none | 107 | 28.8 GB | — | mit | open |
+| [OpenEval (Open-Eval-Commons)](https://huggingface.co/datasets/Open-Eval-Commons/OpenEval) | meta-index | score | no | none | — | 8.6 GB | — | cc-by-nc-4.0 | open |
 
-```json
-{
-  "source": "harbor-adapter",
-  "verdict": "ok",
-  "assets": ["manifest"],
-  "download_human": "15.2 MB",
-  "download_sec_est": 0.4,
-  "obligations": [
-    "attribute: Harbor-Adapter (kendx), arXiv:2609.04298",
-    "NOT redistributable: fetch from upstream, never mirror the bytes"
-  ],
-  "skipped_assets": [
-    {"name": "trajectories", "human": "316.6 GB",
-     "note": "PER-SHARD fetch only. never pull the whole config."}
-  ]
-}
-```
+Cost basis: `(m)` measured from the data · `(r)` reported by the authors · `(e)` estimated. `⚠` marks a dataset that may not be redistributed.
 
-### `unit` is required, and agents must branch on it
+## Detail
 
-`unit: trial` means one row is one independent run — you can compute pass-rate
-variance. `unit: cell` means the source already aggregated; LHTB's `per_task`
-config has no `trial_id` at all. An agent that treats cells as trials reports a
-variance that does not exist, so the registry declares the unit and the CLI
-repeats it on every response.
+## Agent evaluation runs
 
-### Coverage is measured, not promised
+### Harbor-Adapter
 
-`sample` reports the real non-null fraction per column, so nobody burns three turns
-discovering a column exists but is empty:
+`harbor-adapter` · [dataset](https://huggingface.co/datasets/kendx/Harbor-Adapter) · repo: `kendx/Harbor-Adapter` · [paper](https://arxiv.org/abs/2609.04298) · [home](https://harbor-index.org/)
 
-```
-input_tokens   0.661
-n_steps        0.661     # derived from `steps`; only 34,462 of 52,104 rows carry it
-exception_type 0.000     # present in the schema, absent in this source
-```
+- **unit** `trial` · **multi-trial** `yes` · **trajectories** `full` · **gate** `open`
+- **scale** rows 178,647 · trials 793,698 · benchmarks 60 · tasks 7,819 · agents 6 · models 16 · trials_per_cell 1-5 (capped at the 5 most recent)
+- **size** 316.6 GB
+- **cost note** not published. 794k frontier-agent trials; the compute behind this is the largest single spend in the index.
+- **license** `other` — **not redistributable**
+- **upstream updated** 2026-07-11
+- The broadest public multi-benchmark agent run dump: 60 benchmarks in one schema.
+- Dataset card says license `other` and ships no license text. Fetch from upstream; do not mirror.
+- trials_per_cell is censored at 5, not sampled - do not treat it as a designed k.
+- Reward scale differs per benchmark. Never average reward across benchmarks.
+- The 16 MB manifest parquet is cell-level and carries no reward column; rewards live inside the 316 GB of per-trial archives.
 
-## Sources
+### Terminal-Bench leaderboard trajectories
 
-| id | unit | rows | license | redistributable | status |
-|---|---|---|---|---|---|
-| `harbor-adapter` | trial | 178,647 cells / 60 benchmarks / 6 agents / 16 models | `other` | no | implemented |
-| `terminalbench-yoonholee` | trial | 52,104 / 89 tasks / 26 scaffolds / 49 models | `apache-2.0` | yes | implemented |
-| `lhtb-leaderboard` | cell | 1,196 / 46 tasks / 26 models | `apache-2.0` | yes | implemented |
-| `harbor-parity` | trial | adapter oracle/parity runs | `unset` | no | planned |
-| `toolathlon-trajectories` | trial | 17 models × 3 runs × 108 tasks | `cc-by-4.0` | yes (gated) | planned |
-| `malt-transcripts` | trial | 7,179 runs / 169 tasks | `mit` | no (gated) | planned |
-| `hal-traces` | trial | 21,730 rollouts / 9 benchmarks | `unset` | no (encrypted) | planned |
-| `epoch-benchmarks` | cell | 8–16 repeats per cell | `cc-by-4.0` | yes | planned |
-| `swebench-experiments` | cell | official submissions | `mit` | yes | planned |
+`terminalbench-trajectories` · [dataset](https://huggingface.co/datasets/yoonholee/terminalbench-trajectories) · repo: `yoonholee/terminalbench-trajectories` · [home](https://www.tbench.ai/)
 
-Licensing is handled by fetching, never mirroring. HAL encrypts its traces on
-purpose to block scraping; `evaltrials` will decrypt only on your machine, opt-in,
-and will never ship decrypted bytes. METR MALT is MIT but gated, so its fetcher
-requires your own HF token. Every normalized row carries `license_spdx`,
-`redistributable` and `verified_by` so downstream filters are possible.
+- **unit** `trial` · **multi-trial** `yes` · **trajectories** `full` · **gate** `open`
+- **scale** rows 52,104 · benchmarks 1 · tasks 89 · agents 26 · models 49 · trials_per_cell ~5 (TB requires 5 independent runs per submission)
+- **size** 210.8 MB
+- **cost to produce** $21,563 (measured) · input tokens 32,753,686,924 · output tokens 632,468,325 · agent-hours 10,251
+- **cost note** summed from the dataset's own cost_cents column, 2026-09-14. LOWER BOUND: 39.2% of trials report zero cost, and 237 rows carry a NEGATIVE cost (min -$15.99).
+- **license** `apache-2.0`
+- **upstream updated** 2026-03-09
+- Best cost data in the index: per-trial USD, tokens and wall-clock on every row.
+- 26 scaffolds on the same 89 tasks - the widest scaffold axis available anywhere.
+- Shares an identical task-name namespace with Harbor's terminal-bench adapter (89 tasks in both), so the two can be compared task-for-task.
+- Scraped from a public leaderboard, not re-run. Self-reported. TB found cheating on the 2.0 board in April 2026 and now mandates trajectories.
+- `steps` (the trajectory body) is present on 34,462 of 52,104 rows; token counts on the same 66.1%.
 
-`verified_by` matters: `official-harness` (the benchmark's own runner produced it)
-is a stronger claim than `leaderboard-scrape` (self-reported). Terminal-Bench found
-cheating on its 2.0 leaderboard in April 2026 and now mandates trajectories.
+### HAL (Holistic Agent Leaderboard) traces
 
-## The join that motivates the whole thing
+`hal-traces` · [dataset](https://huggingface.co/datasets/agent-evals/hal_traces) · repo: `agent-evals/hal_traces` · [paper](https://arxiv.org/abs/2510.11977) · [home](https://hal.cs.princeton.edu/)
 
-Harbor's `terminal-bench` adapter and the Terminal-Bench scrape use an **identical
-task-name namespace** — both write `adaptive-rejection-sampler`. That gives the same
-89 tasks measured by 6 Harbor agents and 26 leaderboard scaffolds, which is what you
-need to separate *this task is broken* from *this scaffold is weak*.
+- **unit** `trial` · **multi-trial** `yes` · **trajectories** `encrypted` · **gate** `encrypted`
+- **scale** rows 21,730 · benchmarks 9 · models 9 · trials_per_cell varies by benchmark protocol
+- **size** 105.2 GB
+- **cost to produce** $40,000 (reported)
+- **cost note** the HAL paper reports ~$40k and 2.5B tokens for the flagship 21,730-rollout study.
+- **license** `unset` — **not redistributable**
+- **upstream updated** 2026-02-01
+- The clearest published cost-per-rollout in the field: ~$1.84 per rollout.
+- Traces are encrypted ON PURPOSE to stop scraping and benchmark contamination. Decrypt locally via hal-decrypt; do not redistribute decrypted bytes.
+- Covers AssistantBench, GAIA, Online Mind2Web, CORE-Bench, SciCode, ScienceAgentBench, SWE-bench Verified Mini, TAU-bench Airline, USACO.
 
-```sh
-evaltrials query "
-  SELECT task_id,
-         count(*) FILTER (WHERE source='harbor-adapter')           AS harbor_trials,
-         count(*) FILTER (WHERE source='terminalbench-yoonholee')  AS tb_trials,
-         count(DISTINCT agent)                                     AS scaffolds,
-         avg(outcome)                                              AS pass_rate
-  FROM trials
-  WHERE benchmark = 'terminal-bench' AND unit = 'trial'
-  GROUP BY task_id ORDER BY pass_rate"
-```
+### METR MALT public transcripts
 
-## What is deliberately not normalized
+`malt-transcripts` · [dataset](https://huggingface.co/datasets/metr-evals/malt-transcripts-public) · repo: `metr-evals/malt-transcripts-public` · [home](https://metr.org/blog/2025-10-14-malt-dataset-of-natural-and-prompted-behaviors)
 
-The trajectory body. Harbor `trajectory.json`, Terminal-Bench `steps`, SWE-bench
-`.traj`, HAL Weave logs and OSWorld screenshots share no structure. A lossy parser
-sends people back to origin; a faithful one is six parsers to maintain forever.
-`evaltrials` keeps a `trajectory_uri` pointer plus **derived features**
-(`n_steps`, `n_tool_calls`, and Harbor's `mentions_answer_file`,
-`git_history_probe`, `network_fetch` reward-hack/contamination probes). See
-[`docs/SCHEMA.md`](docs/SCHEMA.md).
+- **unit** `trial` · **multi-trial** `yes` · **trajectories** `full` · **gate** `hf-gated`
+- **scale** rows 7,179 · tasks 169 · models 19 · trials_per_cell >=5 under the HCAST protocol
+- **size** 7.9 GB
+- **cost note** not published
+- **license** `mit` — **not redistributable**
+- **upstream updated** 2026-03-24
+- Public split is 7,179 of 10,919 runs; the rest is request-only.
+- MIT licensed but HF-gated, and METR withheld internal-task transcripts to limit contamination. Fetch with your own token; do not mirror.
+- Paired with METR/eval-analysis-public runs.jsonl, which carries per-run score_binarized and human_minutes.
 
-Dropping the body is also why this is cheap: 211 MB of upstream Terminal-Bench
-parquet normalizes to a **2.6 MB** trial table.
+### Toolathlon trajectories
 
-## Honest limits
+`toolathlon-trajectories` · [dataset](https://huggingface.co/datasets/hkust-nlp/Toolathlon-Trajectories) · repo: `hkust-nlp/Toolathlon-Trajectories` · [paper](https://arxiv.org/abs/2510.25726)
 
-The union is **not a balanced factorial**. Most `(task, model)` cells exist in one
-source only. Always group by `source`, or include it as a fixed effect. Harbor's
-`trial_ids` is capped at the 5 most recent, so trials-per-cell is censored rather
-than sampled. Reward scales differ per benchmark — do not average `reward` across
-benchmarks; use `outcome`.
+- **unit** `trial` · **multi-trial** `yes` · **trajectories** `full` · **gate** `hf-gated`
+- **scale** rows 5,000 · tasks 108 · models 17 · trials_per_cell 3
+- **size** 1.9 GB
+- **cost note** not published
+- **license** `cc-by-4.0`
+- **upstream updated** 2025-12-05
+- Clean 17 models x 3 runs x 108 tasks design - one of the few balanced factorials in the index.
+- Tool-use axis; JSONL messages + tool_calls + an eval boolean.
+- Gated: requires accepting terms with an HF token.
 
-## Install
+### Agent Launch Pad trajectories
 
-```sh
-uv venv .venv --python python3
-uv pip install --python .venv/bin/python -e '.[hf,dev]'
-.venv/bin/python -m pytest tests -q
-```
+`agent-launch-pad` · [dataset](https://huggingface.co/datasets/AlexWortega/agent-launch-pad-trajectories) · repo: `AlexWortega/agent-launch-pad-trajectories`
 
-Not published to PyPI. Clone it and install editable.
+- **unit** `trial` · **multi-trial** `no` · **trajectories** `full` · **gate** `open`
+- **scale** rows 1,380 · models 7 · agents 2
+- **cost note** not published
+- **license** `apache-2.0`
+- **upstream updated** 2026-05-12
+- Terminal-Bench 2 (1,204) + ScienceAgentBench (176). One trajectory per cell, so no variance.
+
+### Long-Horizon Terminal-Bench leaderboard
+
+`lhtb-leaderboard` · [dataset](https://huggingface.co/datasets/IntelligenceLab/LHTB-leaderboard) · repo: `IntelligenceLab/LHTB-leaderboard` · [paper](https://arxiv.org/abs/2607.08964)
+
+- **unit** `cell` · **multi-trial** `partial` · **trajectories** `full` · **gate** `open`
+- **scale** rows 1,196 · benchmarks 1 · tasks 46 · models 26
+- **size** 48.1 GB
+- **cost note** not published. long-horizon tasks with per-model agent_budget_sec, so per-trial spend is high.
+- **license** `apache-2.0`
+- **upstream updated** 2026-08-20
+- The `per_task` config has NO trial_id: it is already aggregated. Do not compute trial variance from it.
+- 48.1 GB across 66,805 files. A single asciinema recording reaches 9.8 GB. Never clone the whole repo.
+- Raw per-trial trajectory.json + recording.cast + reward.txt live under submissions/.
+
+### AndroidWorld evaluation traces (SeerRay)
+
+`androidworld-seerray` · [dataset](https://huggingface.co/datasets/SeerRay-Lab/Android-World-Eval) · repo: `SeerRay-Lab/Android-World-Eval`
+
+- **unit** `trial` · **multi-trial** `yes` · **trajectories** `full` · **gate** `open`
+- **scale** rows 464 · tasks 116 · models 1 · trials_per_cell 4
+- **cost note** not published
+- **license** `mit`
+- **upstream updated** 2026-06-30
+- Small but clean: 4 rollouts on each of 116 tasks. Mobile GUI axis.
+- Single method (Xiaomi-GUI-0), so there is no model axis.
+
+### ITBench SRE trajectories
+
+`itbench-trajectories` · [dataset](https://huggingface.co/datasets/ibm-research/ITBench-Trajectories) · repo: `ibm-research/ITBench-Trajectories`
+
+- **unit** `trial` · **multi-trial** `unknown` · **trajectories** `full` · **gate** `open`
+- **scale** rows 105
+- **cost note** not published
+- **license** `cc-by-nc-4.0`
+- **upstream updated** 2026-01-19
+- Site-reliability-engineering task domain, rare in this index.
+- Non-commercial licence.
+
+### ASSERT-KTH agentic eval artifacts
+
+`assert-kth-agentic-evals` · [dataset](https://huggingface.co/datasets/ASSERT-KTH/agentic-evals-artifacts) · repo: `ASSERT-KTH/agentic-evals-artifacts`
+
+- **unit** `trial` · **multi-trial** `yes` · **trajectories** `full` · **gate** `open`
+- **scale** tasks 500 · trials_per_cell 10 per setting
+- **cost note** not published
+- **license** `cc-by-4.0`
+- **upstream updated** 2026-03-20
+- SWE-bench Verified at 10 runs per setting - unusually deep k for SWE-bench.
+
+### Harbor adapter parity experiments
+
+`harbor-parity` · [dataset](https://huggingface.co/datasets/harborframework/parity-experiments) · repo: `harborframework/parity-experiments`
+
+- **unit** `trial` · **multi-trial** `yes` · **trajectories** `full` · **gate** `unknown`
+- **scale** trials_per_cell often 3
+- **cost note** not published
+- **license** `unset` — **not redistributable**
+- **upstream updated** 2026-04-22
+- Oracle and parity runs per Harbor adapter - evidence about whether an adapter preserves the original benchmark.
+- The HF API returns zero file entries for this repo; gate is genuinely unverified.
+
+### METR eval-analysis-public (time-horizon runs)
+
+`metr-eval-analysis` · [dataset](https://github.com/METR/eval-analysis-public) · repo: `METR/eval-analysis-public` · [paper](https://arxiv.org/abs/2503.17354)
+
+- **unit** `trial` · **multi-trial** `yes` · **trajectories** `none` · **gate** `open`
+- **scale** tasks 228 · trials_per_cell ~8 per (model, task)
+- **size** 21.4 MB
+- **cost note** not published
+- **license** `mit`
+- **upstream updated** 2026-01-29
+- runs.jsonl is only 22.4 MB and carries task_id, model alias, score_binarized, score_cont and human_minutes.
+- human_minutes is the rarest field in the index: a human-time calibration per task.
+- Scores only, no trajectories. Transcripts live separately at transcripts.metr.org.
+
+### MLE-bench run groups
+
+`mle-bench-runs` · [dataset](https://github.com/openai/mle-bench) · repo: `openai/mle-bench` · [paper](https://arxiv.org/abs/2410.07095)
+
+- **unit** `cell` · **multi-trial** `yes` · **trajectories** `partial` · **gate** `open`
+- **scale** tasks 75 · trials_per_cell multiple seeds; the paper reports pass@8
+- **cost note** not published
+- **license** `mit`
+- **upstream updated** 2024-10-01
+- 75 Kaggle competitions x AIDE / MLAB / OpenDevin scaffolds.
+- Grading reports per run group; step traces are not packaged per trial.
+
+### OSWorld-Verified Ubuntu trajectories
+
+`osworld-verified-trajs` · [dataset](https://modelscope.cn/datasets/xlangai/ubuntu_osworld_verified_trajs) · [home](https://github.com/xlang-ai/OSWorld)
+
+- **unit** `trial` · **multi-trial** `yes` · **trajectories** `full` · **gate** `account`
+- **scale** tasks 369 · models 15 · trials_per_cell multiple, at 15/50/100 step budgets
+- **size** 447.0 GB
+- **cost note** not published
+- **license** `mit`
+- **upstream updated** 2026-08-01
+- Largest entry in the index by bytes: 480 GB of GUI screenshots and actions.
+- MIT, but the card asks that it not be used as computer-use training data.
+- Screenshots capture third-party desktop and web UIs; that, not the licence header, is the real redistribution question.
+- Hosted on ModelScope, not HuggingFace.
+
+### PaperBench runs
+
+`paperbench-runs` · [dataset](https://github.com/openai/frontier-evals/tree/main/project/paperbench) · repo: `openai/frontier-evals`
+
+- **unit** `trial` · **multi-trial** `yes` · **trajectories** `full` · **gate** `open`
+- **scale** tasks 20 · trials_per_cell 3
+- **cost note** not published; long-horizon paper-reproduction runs are expensive per trial
+- **license** `mit`
+- **upstream updated** 2025-04-01
+- Leaderboard reports 3 runs with SEM, so error bars are available.
+
+### tau-bench / tau2-bench simulations
+
+`tau-bench-trials` · [dataset](https://github.com/sierra-research/tau2-bench) · repo: `sierra-research/tau2-bench` · [paper](https://arxiv.org/abs/2506.07982)
+
+- **unit** `trial` · **multi-trial** `yes` · **trajectories** `full` · **gate** `open`
+- **scale** tasks 300 · trials_per_cell 4-8 (pass^k is the point of the benchmark)
+- **cost note** not published
+- **license** `mit`
+- **upstream updated** 2026-07-15
+- One of the few benchmarks where repeated trials are the headline metric rather than an afterthought.
+- Retail, airline and telecom domains. Leaderboard asks for 4 trials x 3 domains.
+- The repo CHANGELOG documents 75+ task fixes, which doubles as a list of known-invalid tasks.
+
+### TheAgentCompany experiments
+
+`theagentcompany-experiments` · [dataset](https://github.com/TheAgentCompany/experiments) · repo: `TheAgentCompany/experiments`
+
+- **unit** `cell` · **multi-trial** `no` · **trajectories** `full` · **gate** `open`
+- **scale** tasks 175 · trials_per_cell 1
+- **cost note** not published
+- **license** `mit`
+- **upstream updated** 2025-06-01
+- Trajectories and screenshots per model, but the leaderboard is one attempt per task. No variance.
+
+## Score tables
+
+### LMSYS-Chat-1M
+
+`lmsys-chat-1m` · [dataset](https://huggingface.co/datasets/lmsys/lmsys-chat-1m) · repo: `lmsys/lmsys-chat-1m`
+
+- **unit** `score` · **multi-trial** `no` · **trajectories** `none` · **gate** `hf-gated`
+- **scale** rows 1,000,000 · models 25
+- **cost note** in-the-wild traffic, not commissioned runs
+- **license** `other`
+- **upstream updated** 2023-08-01
+- In-the-wild conversations and human preference, not benchmark trials. Wrong unit for variance work; listed to close the loop.
+
+### Epoch AI Benchmarking Hub
+
+`epoch-benchmarking-hub` · [dataset](https://epoch.ai/benchmarks) · [home](https://epoch.ai/benchmarks/use-this-data)
+
+- **unit** `cell` · **multi-trial** `yes` · **trajectories** `none` · **gate** `open`
+- **scale** rows 1,103 · benchmarks 37 · models 126 · trials_per_cell 16 on GPQA Diamond and Mock AIME, 8 on MATH L5
+- **cost note** not published as a total, though Epoch reports per-benchmark inference costs in places
+- **license** `cc-by-4.0`
+- **upstream updated** 2026-09-14
+- The deepest repeat count of any open source: 16 runs per cell. Best available reference for what eval variance actually looks like.
+- Epoch's own run tables are CC-BY and redistributable with credit. The underlying benchmark questions are not Epoch's to relicense.
+- Per-question Inspect logs exist behind a CAPTCHA-gated viewer, not as a bulk download.
+- LLM benchmarks, not agent trajectories. SWE-bench Verified here is score-level.
+
+### SWE-bench official submissions
+
+`swebench-experiments` · [dataset](https://github.com/SWE-bench/experiments) · repo: `SWE-bench/experiments`
+
+- **unit** `cell` · **multi-trial** `no` · **trajectories** `partial` · **gate** `open`
+- **scale** tasks 2,294 · trials_per_cell 1 (pass@1 required; pass@k disallowed for the headline number)
+- **cost note** not published
+- **license** `mit`
+- **upstream updated** 2026-09-01
+- LOOKS like a multi-trial corpus and is not. Different submissions are different systems, not i.i.d. repeats. Never read it as trial variance.
+- The field's longest-running per-run archive: every official submission has carried trajectories since 2024.
+- Per submission: all_preds.jsonl, metadata.yaml, evaluation logs, trajs/*.traj.
+
+## Human-labelled traces
+
+### SWE-bench Verified human annotations
+
+`swebench-verified-annotations` · [dataset](https://openai.com/index/introducing-swe-bench-verified/) · [home](https://huggingface.co/datasets/SWE-bench/SWE-bench_Verified)
+
+- **unit** `score` · **multi-trial** `no` · **trajectories** `none` · **gate** `open`
+- **scale** rows 1,699 · tasks 1,699 · trials_per_cell 3 human raters per task
+- **size** 7.6 MB
+- **cost note** human annotation cost, not compute; not published
+- **license** `apache-2.0`
+- **upstream updated** 2024-08-13
+- Task-validity labels, not agent runs. 3 independent human raters on 1,699 candidate tasks.
+- The closest thing the field has to ground truth on whether a benchmark task is broken.
+
+### AgentRewardBench
+
+`agent-reward-bench` · [dataset](https://huggingface.co/datasets/McGill-NLP/agent-reward-bench) · repo: `McGill-NLP/agent-reward-bench` · [paper](https://arxiv.org/abs/2504.08942)
+
+- **unit** `trajectory` · **multi-trial** `no` · **trajectories** `full` · **gate** `open`
+- **scale** rows 1,302 · benchmarks 5 · models 4
+- **cost note** not published
+- **license** `unset` — **not redistributable**
+- **upstream updated** 2025-04-21
+- 1,302 web-agent trajectories with EXPERT human review of whether the run actually succeeded.
+- Built to evaluate LLM judges, so it is labelled where almost nothing else is.
+- One trajectory per (task, model). No repeats.
+
+### TRAIL failure-attribution traces
+
+`trail-traces` · [dataset](https://huggingface.co/datasets/PatronusAI/TRAIL) · repo: `PatronusAI/TRAIL` · [paper](https://arxiv.org/abs/2505.08638)
+
+- **unit** `trajectory` · **multi-trial** `no` · **trajectories** `full` · **gate** `hf-gated`
+- **scale** rows 148 · benchmarks 2
+- **cost note** not published
+- **license** `mit`
+- **upstream updated** 2025-05-01
+- 148 traces with 841 human-annotated errors across 1,987 OpenTelemetry spans.
+- Encoded as OTel spans - the only entry here that already speaks a standard observability schema.
+- 118 GAIA + 30 SWE-bench. Tiny, but densely labelled.
+
+## Training trajectory dumps (not evaluation)
+
+### NVIDIA Open-SWE-Traces
+
+`nvidia-open-swe-traces` · [dataset](https://huggingface.co/datasets/nvidia/Open-SWE-Traces) · repo: `nvidia/Open-SWE-Traces`
+
+- **unit** `trajectory` · **multi-trial** `no` · **trajectories** `full` · **gate** `open`
+- **scale** rows 200,000
+- **cost note** not published; 200k+ agent rollouts is a very large spend
+- **license** `cc-by-4.0`
+- **upstream updated** 2026-06-01
+- Training data, not evaluation. Success-filtered and usually single-teacher.
+- Listed so nobody mistakes its size for eval coverage. Representative of a whole family: SWE-smith (76k), SWE-Gym, nebius SWE-rebench (67k), R2E-Gym.
+
+### SWE-smith trajectories
+
+`swe-smith-trajectories` · [dataset](https://huggingface.co/datasets/SWE-bench/SWE-smith-trajectories) · repo: `SWE-bench/SWE-smith-trajectories` · [paper](https://arxiv.org/abs/2504.21798)
+
+- **unit** `trajectory` · **multi-trial** `partial` · **trajectories** `full` · **gate** `open`
+- **scale** rows 76,002 · trials_per_cell up to 3 per task instance, after filtering
+- **size** 3.9 GB
+- **cost note** not published
+- **license** `mit`
+- **upstream updated** 2025-04-01
+- SFT corpus generated with SWE-agent + Claude 3.7. Repeats exist but are success-filtered.
+
+## Other indexes
+
+### Every Eval Ever (EvalEval datastore)
+
+`eee-datastore` · [dataset](https://huggingface.co/datasets/evaleval/EEE_datastore) · repo: `evaleval/EEE_datastore`
+
+- **unit** `collection` · **multi-trial** `no` · **trajectories** `none` · **gate** `open`
+- **scale** rows 107
+- **size** 28.8 GB
+- **cost note** aggregation of published scores; no compute of its own
+- **license** `mit`
+- **upstream updated** 2026-09-14
+- The largest existing consolidation effort - 107 eval collections normalized to one score schema.
+- Converts Inspect, HELM and lm-eval-harness output. Samples are optional; trial archives are out of scope.
+- Closest prior art to this index, but it consolidates SCORES, not runs.
+
+### OpenEval (Open-Eval-Commons)
+
+`openeval-commons` · [dataset](https://huggingface.co/datasets/Open-Eval-Commons/OpenEval) · repo: `Open-Eval-Commons/OpenEval`
+
+- **unit** `score` · **multi-trial** `no` · **trajectories** `none` · **gate** `open`
+- **scale** 
+- **size** 8.6 GB
+- **cost note** aggregation; no compute of its own
+- **license** `cc-by-nc-4.0`
+- **upstream updated** 2026-09-05
+- Item-level LLM responses rather than agent runs. Good for item-response-theory work.
+- Non-commercial licence, which rules it out of a lot of downstream use.
+
+## Totals
+
+- **27 datasets indexed** — 17 agent-trials, 3 labeled-traces, 3 llm-scores, 2 meta-index, 2 sft-traces
+- **968.4 GB** of data across entries that report a size
+- **$61,563** of known compute spend, from the 2 of 27 entries where the cost is published or measurable
+- **14** entries have repeated trials per cell; 13 do not or do not say
+
+## Scope
+
+Included: public datasets where the unit of record is an evaluation *run*, *score* or
+*trajectory* produced by a model or agent.
+
+Also included, marked clearly, are three kinds of near-miss that are easy to mistake
+for the real thing:
+
+- **Single-shot archives** (`swebench-experiments`, `theagentcompany-experiments`) —
+  every official submission is a different system, not an i.i.d. repeat.
+- **SFT trajectory dumps** (`nvidia-open-swe-traces`, `swe-smith-trajectories`) — huge,
+  but success-filtered training data from usually one teacher model.
+- **Wrong-unit corpora** (`lmsys-chat-1m`) — in-the-wild traffic and human preference.
+
+Not included: benchmark *task* definitions with no run data attached, private or
+request-only corpora, and leaderboards that publish a number with no underlying records.
+
+## Notable gaps
+
+- **Cost is almost never published.** Two of 27 entries report it. HAL is the only
+  project that treated spend as a headline result.
+- **Balanced factorials are rare.** Toolathlon (17 models × 3 runs × 108 tasks) is one
+  of the only clean designs. Most coverage is ragged.
+- **Nobody publishes negative results.** Failed runs get filtered out of SFT dumps,
+  which is precisely what you would need to study failure.
+
+## Contributing
+
+Add a block to `registry/*.yaml` and run `evaltrials render`. The README is generated
+from the registry — edit the YAML, not the markdown.
+
+Required per entry: `id`, `title`, `kind`, `unit`, `multi_trial`, `trajectories`,
+`upstream`, `license` (including `redistributable`), `gate`. If you set `cost.usd` you
+must also set `cost.basis` to `measured`, `reported` or `estimated`, and say in
+`cost.note` where the number came from.
+
+Corrections are more useful than additions. Several sizes and row counts here were read
+off the HuggingFace API on 2026-09-14 and will drift.
 
 ## License
 
-MIT for the code and registry metadata. Each upstream dataset keeps its own
-license, recorded per source in `registry/*.yaml` and echoed on every row.
+MIT for the index itself. Every dataset listed keeps its own license, recorded per
+entry and flagged in the table.
+
+<!-- generated by `evaltrials render`; edit registry/*.yaml and docs/intro.md, not this file -->

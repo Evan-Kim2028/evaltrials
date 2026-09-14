@@ -1,19 +1,14 @@
 [project]
 name = "evaltrials"
 version = "0.1.0"
-description = "Agent-first catalog and fetcher for public AI-evaluation trial data."
+description = "An index of public AI-evaluation run data."
 readme = "README.md"
 requires-python = ">=3.11"
 license = { text = "MIT" }
 authors = [{ name = "Evan Kim" }]
-dependencies = [
-  "pyyaml>=6.0",
-  "pyarrow>=15",
-  "duckdb>=1.0",
-]
+dependencies = ["pyyaml>=6.0"]
 
 [project.optional-dependencies]
-hf = ["huggingface_hub>=0.25"]
 dev = ["pytest>=8.0"]
 
 [project.scripts]
