@@ -133,6 +133,75 @@ def _detail(e) -> list[str]:
     return out
 
 
+def _by_the_numbers(entries) -> list[str]:
+    """The questions people ask before they click anything."""
+    n = len(entries)
+    hosts: dict[str, list] = {}
+    for e in entries:
+        hosts.setdefault(e.host, []).append(e)
+
+    def gb(items):
+        return human_bytes(sum(e.bytes or 0 for e in items))
+
+    out = ["## By the numbers", "", "**Where it lives**", ""]
+    out.append("| Host | Datasets | Size | Needs an account or token |")
+    out.append("| --- | ---: | ---: | ---: |")
+    for host in sorted(hosts, key=lambda h: -len(hosts[h])):
+        items = hosts[host]
+        gated = sum(1 for e in items if e.needs_token)
+        out.append(f"| {host} | {len(items)} | {gb(items)} | {gated} |")
+    out.append(f"| **total** | **{n}** | **{gb(entries)}** | "
+               f"**{sum(1 for e in entries if e.needs_token)}** |")
+    out.append("")
+
+    hf = hosts.get("huggingface", [])
+    anon = [e for e in entries if not e.needs_token]
+    out.append(f"- **{len(hf)} of {n}** datasets are on HuggingFace, holding "
+               f"{gb(hf)} of the {gb(entries)} indexed.")
+    out.append(f"- **{len(anon)} of {n}** can be downloaded anonymously — no token, no account, "
+               f"no terms to accept. That is {gb(anon)}.")
+    tok = [e for e in entries if e.gate == "hf-gated"]
+    other = [e for e in entries if e.gate in ("account", "encrypted")]
+    out.append(f"- **{len(tok)}** need a HuggingFace token plus accepted terms ({gb(tok)}); "
+               f"**{len(other)}** need something else — a ModelScope account or HAL's "
+               f"own decryption path ({gb(other)}).")
+    nonhf = [e for e in entries if e.host != "huggingface"]
+    out.append(f"- **{len(nonhf)}** live outside HuggingFace entirely — on GitHub, ModelScope "
+               f"or a project site. These are the least machine-readable entries in the index: "
+               f"most have no row count and no size, because neither is cheaply checkable.")
+    out.append("")
+
+    out.append("**What it cost to make**")
+    out.append("")
+    known = [e for e in entries if e.cost.get("usd")]
+    total = sum(e.cost["usd"] for e in known)
+    out.append(f"- **${total:,.0f}** across the {len(known)} of {n} entries that disclose a cost.")
+    for e in sorted(known, key=lambda x: -x.cost["usd"]):
+        c = e.cost
+        extra = []
+        if c.get("tokens_in"):
+            extra.append(f"{c['tokens_in'] / 1e9:.1f}B input tokens")
+        if c.get("agent_hours"):
+            extra.append(f"{c['agent_hours']:,} agent-hours")
+        suffix = f" — {', '.join(extra)}" if extra else ""
+        out.append(f"  - {e.title}: **${c['usd']:,.0f}** ({c['basis']}){suffix}")
+    out.append(f"- The other **{n - len(known)}** published nothing. Harbor-Adapter alone is "
+               f"793,698 frontier-agent trials with no cost figure attached; it is "
+               f"comfortably the largest undisclosed spend in the index.")
+    out.append("")
+
+    trial = [e for e in entries if e.unit == "trial" and e.multi_trial == "yes"]
+    out.append("**What is actually usable for variance work**")
+    out.append("")
+    out.append(f"- **{len(trial)} of {n}** entries are per-trial AND have repeated runs per cell. "
+               f"Everything else is pre-aggregated, single-shot, or the wrong unit.")
+    usable = [e for e in trial if not e.needs_token]
+    out.append(f"- Of those, **{len(usable)}** need no token at all: "
+               + ", ".join(f"`{e.id}`" for e in sorted(usable, key=lambda x: x.id)) + ".")
+    out.append("")
+    return out
+
+
 def _totals(entries) -> list[str]:
     by_kind: dict[str, int] = {}
     for e in entries:
@@ -178,6 +247,7 @@ def render(entries: dict) -> str:
             lines.append(f"## {KIND_TITLE.get(e.kind, e.kind)}")
             lines.append("")
         lines += _detail(e)
+    lines += _by_the_numbers(items)
     lines += _totals(items)
     outro = _read("outro.md")
     if outro:

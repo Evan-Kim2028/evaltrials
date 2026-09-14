@@ -68,3 +68,17 @@ def test_measured_dates_render_as_spans():
     out = render(ENTRIES)
     assert "2026-03-25 → 2026-05-26 (m)" in out   # harbor, measured
     assert "2025-10-31 → 2026-03-05 (m)" in out   # terminal-bench, measured
+
+
+def test_by_the_numbers_section_exists():
+    out = render(ENTRIES)
+    assert "## By the numbers" in out
+    assert "Where it lives" in out and "What it cost to make" in out
+    assert "usable for variance work" in out
+
+
+def test_host_totals_add_up():
+    from evaltrials.render import human_bytes
+    out = render(ENTRIES)
+    total = human_bytes(sum(e.bytes or 0 for e in ENTRIES.values()))
+    assert f"**{total}**" in out

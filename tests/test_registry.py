@@ -83,3 +83,28 @@ def test_measured_runs_predate_upstream_upload(entry):
     """A measured run date after the upload date means the measurement is wrong."""
     if entry.runs.get("basis") == "measured" and entry.raw.get("updated"):
         assert entry.runs["last"] <= entry.raw["updated"], entry.id
+
+
+@pytest.mark.parametrize("entry", ENTRIES.values(), ids=list(ENTRIES))
+def test_row_counts_state_their_provenance(entry):
+    """A row count with no stated provenance is the failure mode this index exists to avoid."""
+    assert entry.scale.get("rows_note"), "every entry must say where its row count came from"
+    v = entry.raw.get("verified") or {}
+    assert v.get("rows"), "every entry must record how its rows were verified"
+    assert v.get("checked")
+
+
+@pytest.mark.parametrize("entry", ENTRIES.values(), ids=list(ENTRIES))
+def test_unverified_counts_say_so_out_loud(entry):
+    """If we could not check it, the note must admit it."""
+    method = (entry.raw.get("verified") or {}).get("rows", "")
+    if method.startswith("unverified") and entry.scale.get("rows"):
+        assert "UNVERIFIED" in entry.scale["rows_note"]
+
+
+@pytest.mark.parametrize("entry", ENTRIES.values(), ids=list(ENTRIES))
+def test_host_and_token_are_derivable(entry):
+    assert entry.host in ("huggingface", "github", "modelscope", "web")
+    assert isinstance(entry.needs_token, bool)
+    if entry.gate == "open":
+        assert not entry.needs_token

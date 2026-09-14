@@ -50,6 +50,21 @@ class Entry:
         return self.raw.get("notes") or []
 
     @property
+    def host(self) -> str:
+        """Where the bytes actually live. Answers 'how much of this is HuggingFace?'"""
+        url = (self.upstream.get("url") or self.upstream.get("homepage") or "").lower()
+        for needle, name in (("huggingface.co", "huggingface"), ("github.com", "github"),
+                             ("modelscope.cn", "modelscope")):
+            if needle in url:
+                return name
+        return "web"
+
+    @property
+    def needs_token(self) -> bool:
+        """True if you cannot get this with an anonymous HTTP request."""
+        return self.gate in ("hf-gated", "account", "encrypted")
+
+    @property
     def runs(self) -> dict:
         """When the trials were actually run - not when the dataset was uploaded."""
         return self.raw.get("runs") or {}
